@@ -11,8 +11,12 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import algorithms.mazeGenerators.Maze;
+import algorithms.search.Solution;
 import model.OffLineModel;
 import presenter.Presenter;
+import presenter.PropertiesModel;
+import sModel.SModel;
 
 public class MyServer {
 	protected int port;
@@ -29,6 +33,7 @@ public class MyServer {
 		this.Allowed=numOfClients;
 		this.dely=Dely;
 	}
+	
 
 	public void Start(ClientHandler ch) {
 		this.CH=ch;

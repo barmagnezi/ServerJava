@@ -1,6 +1,9 @@
-package java_server;
+package boot;
 
 import java.util.Scanner;
+
+import java_server.ClientHandlerStub;
+import java_server.MyServer;
 
 
 public class Run {

@@ -103,7 +103,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	@Override
 	public void displayClue(String clue) {
 		try {
-			writer.writeObject("sentString");
+			writer.writeObject("sentClue");
 			writer.writeObject(clue);
 			writer.flush();
 		} catch (IOException e) {

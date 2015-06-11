@@ -28,7 +28,7 @@ public class MyModelStub extends Observable implements Model {
 	}
 
 	@Override
-	public void solveMaze(Maze m) {
+	public void solveMaze(String name) {
 		System.out.println("solveMaze");
 		this.setChanged();
 		this.notifyObservers("solveMazeCompleted "+"mazeName"); //only for example

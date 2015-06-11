@@ -126,7 +126,8 @@ public class OffLineModel extends Observable implements Model {
 	 * @param m The maze we want to solve.
 	 */
 	@Override
-	public void solveMaze(Maze m) {
+	public void solveMaze(String name) {
+		Maze m=nameMaze.get(name);
 		if(m==null){
 			this.setChanged();
 			this.notifyObservers("maze "+m+" not found.");

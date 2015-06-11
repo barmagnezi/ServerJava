@@ -34,10 +34,13 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 		}
 		reader=new BufferedReader(new InputStreamReader(input));
 		commandsList= new LinkedList<Command>();
+		start();
 	}
 
 	@Override
 	public void start() {
+		this.setChanged();
+		this.notifyObservers("start");
 		while(true){
 			try {
 				//get client commands until get exit
@@ -45,6 +48,9 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 				System.out.println("The client send:"+line+"\n");
 				if(line.equals("exit")){
 					System.out.println("The client end the session");
+					commandsList.add(commands.get("exit"));
+					this.setChanged();
+					this.notifyObservers("");
 					return;
 				}
 				String[] commandArg=line.split(" ", 2);

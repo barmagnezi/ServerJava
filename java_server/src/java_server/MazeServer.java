@@ -38,7 +38,6 @@ public class MazeServer extends MyServer {
 							CH.addObserver(p);
 							m.addObserver(p);
 							CH.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
-							CH.start();
 							someClient.getInputStream().close();
 							someClient.getOutputStream().close();
 							someClient.close();

@@ -2,6 +2,8 @@ package boot;
 
 import java.util.Scanner;
 
+import model.OffLineModel;
+import presenter.Presenter;
 import java_server.ClientHandlerStub;
 import java_server.MyServer;
 
@@ -10,7 +12,6 @@ public class Run {
 
 	public static void main(String[] args) {
 		//For server side
-		
 		System.out.println("Enter command\nStart <port-number> <number-of-client>");
 		int port,num;
 		String s;

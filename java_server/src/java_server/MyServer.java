@@ -11,9 +11,12 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import model.OffLineModel;
+import presenter.Presenter;
+
 public class MyServer {
-	private int port;
-	private boolean run;
+	protected int port;
+	protected boolean run;
 	int Allowed;
 	static int clientNum=0;
 	int dely;
@@ -27,33 +30,37 @@ public class MyServer {
 		this.dely=Dely;
 	}
 
-	public void Start(ClientHandler ch) throws Exception {
+	public void Start(ClientHandler ch) {
 		this.CH=ch;
 		System.out.println("<---SERVER side--->");
 		System.out.println("Enter port:");
-		myServer = new ServerSocket(port);
-		myServer.setSoTimeout(dely);
-		System.out.println("Enter number of clients:");
-		ExecutorService executor = Executors.newFixedThreadPool(Allowed);
-		while(run){
-			Socket someClient=myServer.accept();
-			executor.execute (new Runnable() {
-				@Override
-				public void run() {
-					try {
-						clientNum++;
-						System.out.println("Client "+clientNum+" CONNECTED");
-						CH.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
-						someClient.getInputStream().close();
-						someClient.getOutputStream().close();
-						someClient.close();
-					} catch (IOException e) {
-						e.printStackTrace();
+		try {
+			myServer = new ServerSocket(port);
+			myServer.setSoTimeout(dely);
+			System.out.println("Enter number of clients:");
+			ExecutorService executor = Executors.newFixedThreadPool(Allowed);
+			while(run){
+				Socket someClient=myServer.accept();
+				executor.execute (new Runnable() {
+					@Override
+					public void run() {
+						try {
+							clientNum++;
+							System.out.println("Client "+clientNum+" CONNECTED");
+							CH.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
+							someClient.getInputStream().close();
+							someClient.getOutputStream().close();
+							someClient.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			});
+				});
+			}
+			myServer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		myServer.close();
 	}
 
 	

@@ -24,6 +24,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	BufferedReader reader;
 	HashMap<String, Command> commands;
 	Queue<Command> commandsList;
+	
 	@Override
 	public void HandleClient(InputStream input, OutputStream outputStream) {
 		try {

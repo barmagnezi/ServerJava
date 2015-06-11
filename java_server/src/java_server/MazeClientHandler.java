@@ -115,7 +115,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	public void getDiagsMode(boolean diag) {
 		Boolean diagObject=diag;
 		try {
-			writer.writeObject("sentString");
+			writer.writeObject("sentDiagsMode");
 			writer.writeObject(diagObject);
 			writer.flush();
 		} catch (IOException e) {

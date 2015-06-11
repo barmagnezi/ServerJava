@@ -36,7 +36,7 @@ public class MyServer {
 		System.out.println("Enter number of clients:");
 		ExecutorService executor = Executors.newFixedThreadPool(Allowed);
 		while(run){
-			Socket someClient=this.accept();
+			Socket someClient=myServer.accept();
 			executor.execute (new Runnable() {
 				@Override
 				public void run() {

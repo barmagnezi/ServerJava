@@ -15,7 +15,7 @@ import algorithms.search.aStar.MazeManhhetenDistance;
 * @version 1.0
 * @since 17.5.2015
 */
-public class PropertiesModel implements Serializable {
+public class SPropertiesModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int AllowedThreads;
 	public MazeGenerator MGenerator;
@@ -28,13 +28,13 @@ public class PropertiesModel implements Serializable {
 	public Boolean online;
 	
 	
-	public PropertiesModel() {
+	public SPropertiesModel() {
 	}
 	
 	/**
 	 * Default copy constructor.
 	 */
-	private void copyConstructor(PropertiesModel prop) {
+	private void copyConstructor(SPropertiesModel prop) {
 		this.AllowedThreads=prop.getAllowedThreads();
 		this.MGenerator=prop.getMGenerator();
 		this.Hue=prop.getHue();
@@ -47,11 +47,11 @@ public class PropertiesModel implements Serializable {
 	 * Sets the properties model from an inputStream.
 	 * @param from inputStream containing the XML file.
 	 */
-	public PropertiesModel(InputStream from) {
+	public SPropertiesModel(InputStream from) {
 		try{
 			XMLDecoder XML = null;	
 			XML = new XMLDecoder(from);	
-			this.copyConstructor((PropertiesModel) XML.readObject());
+			this.copyConstructor((SPropertiesModel) XML.readObject());
 			XML.close();
 		}catch(Exception e ){
 			System.out.println("no found properties//run default values\n"

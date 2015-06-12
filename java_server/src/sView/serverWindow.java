@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Observer;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -16,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Text;
 
 import View.Command;
 import algorithms.mazeGenerators.Maze;
@@ -29,21 +33,42 @@ import view.View;
 * @since 31.5.2015
 */
 public class serverWindow extends BasicWindow implements View {
-
+	int width,height;
 	public serverWindow(String title, int width, int height) {
 		super(title, width, height);
+		this.width=width;
+		this.height=height;
 	}
 	String filepath;
 	
 	@Override
 	protected void initWidgets() {
 		shell.setLayout(new GridLayout(3,false));
-		shell.setBackgroundImage(new Image(null, "resources/images/Servbackground.png"));
+		
+		Image image = new Image(null,"resources/images/Servbackground.png");
+		shell.setBackgroundImage(new Image(null, image.getImageData().scaledTo(this.width,this.height)));
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
+		
+		//Text1 - Current IP
+		Text TIP = new Text(shell, SWT.BORDER);
+		TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		
+		//TPort.setText(myServer.getPort());
+		TIP.setText("SENIA");
+		TIP.setEnabled(false);
+		
+		//Text2 - Current Port
+		Text TPort = new Text(shell, SWT.BORDER);
+		TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		
+		//TPort.setText(myServer.getPort());
+		TPort.setText("SENIA");
+		TPort.setEnabled(false);
+		
 		//button1 - Create New Maze
 		Button BNewMaze=new Button(shell, SWT.PUSH);
 		BNewMaze.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));		
-		BNewMaze.setText("Create new maze");
+		BNewMaze.setText("Save port");
 		BNewMaze.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -86,6 +111,14 @@ public class serverWindow extends BasicWindow implements View {
 	            }
 			}
 		});
+		shell.addControlListener(new ControlAdapter() {
+			public void controlResized(ControlEvent e){
+                Rectangle rect = shell.getBounds();
+                if(rect.height!=height || rect.width != width)
+                	shell.setBounds(rect.x, rect.y, width, height);
+			}
+		});
+		
 	}	//initWidgets
 	
 	public void start(){

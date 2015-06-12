@@ -20,7 +20,7 @@ import model.Model;
 * @version 1.0
 * @since 17.5.2015
 */
-public class Presenter implements Observer{
+public class SPresenter implements Observer{
 	SModel model;
 	View view;
 	HashMap<String, Command> commands;
@@ -32,7 +32,7 @@ public class Presenter implements Observer{
 	 * @param m The Model object.
 	 * @param row The number of rows our maze will have (>2)
 	 */
-	public Presenter(View v, SModel m) {
+	public SPresenter(View v, SModel m) {
 		model=m;
 		view=v;
 		commands=new HashMap<String, Command>();
@@ -42,15 +42,15 @@ public class Presenter implements Observer{
 	}
 	public void setNewProperties(String path){
 		InputStream from = null;
-		PropertiesModel Mproperties;
+		SPropertiesModel Mproperties;
 		try {
 			from = new FileInputStream(path);
-			Mproperties = new PropertiesModel(from);
+			Mproperties = new SPropertiesModel(from);
 		} catch (Exception e) {
 			view.displayString(path+" not found");
 			File theDir = new File("resources");
 			theDir.mkdirs();
-			Mproperties = new PropertiesModel(null);}		
+			Mproperties = new SPropertiesModel(null);}		
 		//model.setProperties(Mproperties);
 		view.getDiagsMode(Mproperties.isDiag());
 	}

@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 import sModel.SModel;
 import model.OffLineModel;
-import sPresenter.Presenter;
+import sPresenter.SPresenter;
+import sPresenter.SPresenter;
 import sView.serverWindow;
 import java_server.ClientHandlerStub;
 import java_server.MazeServer;
@@ -26,7 +27,7 @@ public class Run {
 		MazeServer m=new MazeServer(0,5000000, 0);
 		//View setting
 		serverWindow v = new serverWindow("Server", 600, 600);
-		Presenter p=new Presenter(v, m); 
+		SPresenter p=new SPresenter(v, m); 
 		MyServer m2 = new MyServer(0, 0, 0);
 		v.addObserver(p);
 		//m.addObserver(p);

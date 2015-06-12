@@ -35,6 +35,7 @@ public class MazeServer extends Observable implements SModel{
 	ServerSocket myServer;
 	ClientHandler ch;
 	ExecutorService executor;
+	Socket someClient;
 	
 	public MazeServer(ClientHandler ch,int port, int Dely,int numOfClients){
 		this.ch=ch;
@@ -48,14 +49,15 @@ public class MazeServer extends Observable implements SModel{
 	public void start(){
 		System.out.println("Maze server START");
 		System.out.println("<---SERVER side--->");
-		this.port=4900;
-		System.out.println("Def Port is: "+this.port);
+		System.out.println("Port is: "+this.port);
+		//this.port=4900;
+		//System.out.println("Def Port is: "+this.port);
 		try {
 			this.myServer = new ServerSocket(port);
 			this.myServer.setSoTimeout(dely);
 			executor = Executors.newFixedThreadPool(Allowed);
 			while(run){
-				Socket someClient=myServer.accept();
+				someClient=myServer.accept();
 				executor.execute (new Runnable() {
 					@Override
 					public void run() {
@@ -233,6 +235,8 @@ public class MazeServer extends Observable implements SModel{
 		else{
 			try {
 				if(myServer!=null)
+					//if(!someClient.isClosed())
+					//	someClient.close();
 					myServer.close();
 			} catch (IOException e) {
 				e.printStackTrace();

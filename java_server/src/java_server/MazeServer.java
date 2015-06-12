@@ -25,7 +25,6 @@ import presenter.PropertiesModel;
 import sModel.SModel;
 //public class MazeServer extends MyServer implements SModel{
 public class MazeServer extends Observable implements SModel{
-	MazeServer serv;
 	
 	//From old MyServer
 	protected int port;
@@ -35,20 +34,22 @@ public class MazeServer extends Observable implements SModel{
 	int dely;
 	ClientHandler CH;
 	ServerSocket myServer;
+	ClientHandler ch;
 	
-	public MazeServer(int port, int Dely,int numOfClients){
+	public MazeServer(ClientHandler ch,int port, int Dely,int numOfClients){
+		this.ch=ch;
 		run=true;
 		this.port=port;
 		this.Allowed=numOfClients;
 		this.dely=Dely;
 	}
 	
-	
-	public void Start(MazeClientHandler ch){
-		MazeClientHandler CH=ch;
+	@Override
+	public void start(){
+		System.out.println("Maze server START");
 		System.out.println("<---SERVER side--->");
 		this.port=4900;
-		System.out.println("Def Port is: "+port);
+		System.out.println("Def Port is: "+this.port);
 		try {
 			this.myServer = new ServerSocket(port);
 			this.myServer.setSoTimeout(dely);
@@ -106,23 +107,6 @@ public class MazeServer extends Observable implements SModel{
 	}
 
 	@Override
-	public void start() {
-		/*System.out.println("Enter command\nStart <port-number> <number-of-client>");
-		int port,num;
-		String s;
-		Scanner in = new Scanner(System.in);
-	    s = in.nextLine();
-	    String[] ServerProp = s.split(" ");*/
-		serv=new MazeServer(5400,5000000, 5);	//Change to get from the XML the detils
-		MazeClientHandler CH = new MazeClientHandler();
-		try {
-			serv.Start(CH);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	public void stop() {
 		/*XMLEncoder e = null;	=================================================Not finished - YOM STUDENT
 		try {
@@ -163,7 +147,11 @@ public class MazeServer extends Observable implements SModel{
 
 	@Override
 	public int GetPort() {
-		return port;
+		if(myServer!=null)
+			return myServer.getLocalPort();
+		else
+			return -1;
+		
 	}
 	
 	//From old MyServer
@@ -222,5 +210,4 @@ public class MazeServer extends Observable implements SModel{
 		CH = cH;
 	}
 
-	
 }

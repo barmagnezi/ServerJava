@@ -24,7 +24,8 @@ public class Run {
 		Scanner in = new Scanner(System.in);
 	    s = in.nextLine();
 	    String[] ServerProp = s.split(" ");*/
-		MazeServer m=new MazeServer(0,5000000, 0);
+		MazeClientHandler ch = new MazeClientHandler();
+		MazeServer m=new MazeServer(ch, 0,5000000, 0);
 		//View setting
 		serverWindow v = new serverWindow("Server", 600, 600);
 		SPresenter p=new SPresenter(v, m); 

@@ -78,16 +78,16 @@ public class serverWindow extends BasicWindow implements SView {
 		this.setChanged();
 		this.notifyObservers("nothing");
 		
-		//Text2 - Current Port
-		//this.TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		//this.TPort.setText("SENIA");
-		//TPort.setEnabled(false);
-		
+		//Text1 - Current IP
+		this.TPort = new Text(shell, SWT.BORDER);
+		this.TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		//TIP.setText(myServer.getPort());
 		if (commands.get("getPort")==null)
 			System.out.println("error");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
 		this.notifyObservers("nothing");
+		
 		
 		//button1 - Create New Maze
 		Button BNewMaze=new Button(shell, SWT.PUSH);
@@ -194,8 +194,8 @@ public class serverWindow extends BasicWindow implements SView {
 	public void setPort(int port) {
 		System.out.println("serverWindow-setport-port: "+port);
 		String temp=""+port;
-		//TPort.setText(temp);
-		//TPort.setText("ASADSADS");
+		this.TPort.setText(temp);
+		//this.TPort.setText("ASADSADS");
 	}
 	
 } //Class close

@@ -45,6 +45,7 @@ public class serverWindow extends BasicWindow implements SView {
 	int width,height;
 	Text TIP;
 	Text TPort;
+	List CList;
 	
 	public serverWindow(String title, int width, int height) {
 		super(title, width, height);
@@ -112,7 +113,7 @@ public class serverWindow extends BasicWindow implements SView {
 		
 		//button1 - Save port
 		Button BNewMaze=new Button(shell, SWT.PUSH);
-		BNewMaze.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));		
+		BNewMaze.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
 		BNewMaze.setText("Save port");
 		BNewMaze.addSelectionListener(new SelectionListener() {
 			@Override
@@ -139,9 +140,8 @@ public class serverWindow extends BasicWindow implements SView {
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
 		//List1 - Client IP
-		List CIP = new List(shell, SWT.SINGLE | SWT.BORDER);
-		List Cport = new List(shell, SWT.SINGLE | SWT.BORDER);
-		List Ctime = new List(shell, SWT.SINGLE | SWT.BORDER);
+		CList = new List(shell, SWT.SINGLE | SWT.BORDER);
+		CList.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
 		
 		shell.addHelpListener(new HelpListener() {
 			
@@ -185,7 +185,10 @@ public class serverWindow extends BasicWindow implements SView {
 		run();
 	}
 	public void exit(){
-		//gameView.exit();
+		shell.dispose();
+		commandsList.add(commands.get("exit"));
+		this.setChanged();
+		this.notifyObservers("");
 	}
 	
 	@Override
@@ -234,6 +237,12 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void update() {
+		CList.removeAll();
+	}
+
+	@Override
+	public void setUsers() {
+		// TODO Auto-generated method stub
 		
 	}
 	

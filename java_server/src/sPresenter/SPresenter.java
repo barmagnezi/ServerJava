@@ -89,6 +89,7 @@ public class SPresenter implements Observer{
 		commands.put("getPort", new getPortCommand());
 		commands.put("setPort", new setPortCommand());
 		commands.put("update", new UpdateCommand());
+		commands.put("getUsers", new getUsersCommand());
 		//Old
 		commands.put("generateMaze", new generateMazeCommand());
 		/*commands.put("displayMaze", new displaymazeCommand());
@@ -102,31 +103,34 @@ public class SPresenter implements Observer{
 	}
 	//commands
 	public class getIPCommand implements Command{
-
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			view.setIP(model.GetIP());
 		}
 	}
 	public class getPortCommand implements Command{
-
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			view.setPort(model.GetPort());
 		}
 	}
 	public class setPortCommand implements Command{
-
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			model.setPort(arg);
 		}
 	}
 	public class UpdateCommand implements Command{
-
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			model.setPort(arg);
+		}
+	}
+	public class getUsersCommand implements Command{
+
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			view.setUsers(model.getUsers(arg));
 		}
 	}
 	

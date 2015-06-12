@@ -16,6 +16,7 @@ public interface SView {
 	void setIP(String ip);
 	void setPort(int port);
 	void update();
+	void setUsers();
 	/**
 	 * Starts the view with the myCLI.
 	 */

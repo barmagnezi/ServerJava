@@ -47,7 +47,7 @@ public class MazeServer extends Observable implements SModel{
 	public void Start(MazeClientHandler ch){
 		MazeClientHandler CH=ch;
 		System.out.println("<---SERVER side--->");
-		this.port=5000;
+		this.port=4900;
 		System.out.println("Def Port is: "+port);
 		try {
 			this.myServer = new ServerSocket(port);

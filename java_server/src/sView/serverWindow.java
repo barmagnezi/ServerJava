@@ -39,7 +39,8 @@ public class serverWindow extends BasicWindow implements SView {
 	Queue<Command> commandsList;
 	
 	int width,height;
-	Text TIP,TPort;
+	Text TIP;
+	Text TPort;
 	
 	public serverWindow(String title, int width, int height) {
 		super(title, width, height);
@@ -68,8 +69,8 @@ public class serverWindow extends BasicWindow implements SView {
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 		
 		//Text1 - Current IP
-		TIP = new Text(shell, SWT.BORDER);
-		TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		this.TIP = new Text(shell, SWT.BORDER);
+		this.TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		//TIP.setText(myServer.getPort());
 		if (commands.get("getIP")==null)
 			System.out.println("error");
@@ -78,17 +79,15 @@ public class serverWindow extends BasicWindow implements SView {
 		this.notifyObservers("nothing");
 		
 		//Text2 - Current Port
-		Text TPort = new Text(shell, SWT.BORDER);
-		TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
-		TPort.setText("SENIA");
-		TPort.setEnabled(false);
+		//this.TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		//this.TPort.setText("SENIA");
+		//TPort.setEnabled(false);
 		
-		/*if (commands.get("getPort")==null)
+		if (commands.get("getPort")==null)
 			System.out.println("error");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
-		this.notifyObservers("nothing");*/
-		//TPort.setText(myServer.getPort());
+		this.notifyObservers("nothing");
 		
 		//button1 - Create New Maze
 		Button BNewMaze=new Button(shell, SWT.PUSH);
@@ -196,8 +195,7 @@ public class serverWindow extends BasicWindow implements SView {
 		System.out.println("serverWindow-setport-port: "+port);
 		String temp=""+port;
 		//TPort.setText(temp);
-		TPort.setText("SENAIAEAE");
-		
+		//TPort.setText("ASADSADS");
 	}
 	
 } //Class close

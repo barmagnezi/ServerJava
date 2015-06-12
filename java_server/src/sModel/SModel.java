@@ -16,5 +16,7 @@ public interface SModel {
 	public void setPort(int port);
 	public String getUsers();
 	public void killServer();
+	public void start();
+	public void stop();
 	
 }

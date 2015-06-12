@@ -78,8 +78,8 @@ public class SPresenter implements Observer{
 				if(arg==null)
 					return;
 				else{
-					if(arg=="newClient" || arg=="delClient")
-						view.update();
+					if(arg=="update" || arg=="newClient" || arg=="delClient")
+						view.update((String) arg);
 					else
 						view.displayString((String)arg);
 				}					
@@ -93,19 +93,14 @@ public class SPresenter implements Observer{
 		commands.put("getIP", new getIPCommand());
 		commands.put("getPort", new getPortCommand());
 		commands.put("setPort", new setPortCommand());
-		commands.put("update", new UpdateCommand());
-		commands.put("getUsers", new getUsersCommand());
+		commands.put("update", new updateCommand());
+		commands.put("killServer", new killServerCommand());
 		//Old
-		commands.put("generateMaze", new generateMazeCommand());
-		/*commands.put("displayMaze", new displaymazeCommand());
-		commands.put("solveMaze", new solvemazeCommand());
-		commands.put("displaySolution", new displaysolutionCommand());
 		commands.put("exit", new exitCommand());
 		commands.put("help", new helpCommand());
 		commands.put("setNewProperties", new setPropertiesCommand());
-		commands.put("GetClue", new clueCommand());*/
-		//commands.put("checkMotion", new checkMotionCommand());
 	}
+	
 	//commands
 	public class getIPCommand implements Command{
 		@Override
@@ -122,81 +117,22 @@ public class SPresenter implements Observer{
 	public class setPortCommand implements Command{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
-			model.setPort(arg);
+			model.setPort(Integer.parseInt(arg));
 		}
 	}
-	public class UpdateCommand implements Command{
+	public class updateCommand implements Command{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
-			model.setPort(arg);
+			view.update(arg);
 		}
 	}
-	public class getUsersCommand implements Command{
-
+	public class killServerCommand implements Command{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
-			view.setUsers(model.getUsers(arg));
+			model.killServer();
 		}
 	}
 	
-	
-	//the argument must be (name) (int rows),(int cols)
-	public class generateMazeCommand implements Command {
-		@Override
-		/**
-		 * Disassembling the generateMaze received command, setting parameters and calling for the function.
-		 */
-		public void doCommand(String arg,PrintStream out) {
-			String[] nameAndArguments=arg.split(" ");
-			if(nameAndArguments.length!=2){
-				view.displayString("Please enter two arguments");
-				return;
-			}
-			String[] rowAndcol=nameAndArguments[1].split(","); 
-			if(rowAndcol.length!=2){
-				view.displayString("The second argument must be split with ',' ");
-				return;
-			}
-			int rows=Integer.parseInt(rowAndcol[0]);
-			int cols=Integer.parseInt(rowAndcol[1]);
-			model.generateMaze(nameAndArguments[0],rows,cols);
-		}
-	}
-	
-	/**
-	 * Disassembling the displaymazeCommand, setting parameters and calling for the function.
-	 */
-	public class displaymazeCommand implements Command {
-		@Override
-		public void doCommand(String arg,PrintStream out) {
-			if(model.getMaze(arg)!=null)
-				view.displayMaze(model.getMaze(arg),arg);
-		}
-	}
-	
-	/**
-	 * Disassembling the solvemazeCommand, setting parameters and calling for the function.
-	 */
-	public class solvemazeCommand  implements Command {
-		@Override
-		public void doCommand(String arg,PrintStream out) {
-			model.solveMaze(arg);
-		}
-	}
-	
-	/**
-	 * Disassembling the displaysolutionCommand, setting parameters and calling for the function.
-	 */
-	public class displaysolutionCommand  implements Command {
-		@Override
-		public void doCommand(String arg,PrintStream out) {
-			if(model.getSolution(arg)!=null)
-				view.displaySolution(model.getSolution(arg));
-			else
-				view.displayString("Such solution was not found.");
-			
-		}
-	}
 	public class exitCommand  implements Command {
 		@Override
 		public void doCommand(String arg,PrintStream out) {
@@ -230,27 +166,6 @@ public class SPresenter implements Observer{
 		}
 		
 	}
-	
-	public class clueCommand implements Command{
-
-		@Override
-		public void doCommand(String arg, PrintStream out) {
-			view.displayClue(model.getClue(arg));
-		}
-		
-	}
-	/*checkMotion not work
-	public class checkMotionCommand implements Command{
-
-		@Override
-		public void doCommand(String arg, PrintStream out) {
-			String[] data=arg.split(" ");
-			boolean flag = model.checkMotion(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]));
-			System.out.println(flag);
-			view.getData(flag, "checkMotion");
-		}
-		
-	}*/
 
 		
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observer;
 import java.util.Queue;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -14,29 +13,31 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
-
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import view.View;
 
 /**
-* Main window interface, setting the default buttons and the main gameView widget.
+* Server Main window, setting the default buttons and the main gameView widget.
 * @author  Bar Magnezi and Senia Kalma
 * @version 1.0
-* @since 31.5.2015
+* @since 11.5.2015
 */
 public class serverWindow extends BasicWindow implements SView {
 	HashMap<String, Command> commands;
@@ -72,44 +73,56 @@ public class serverWindow extends BasicWindow implements SView {
 		Image image = new Image(null,"resources/images/Servbackground.png");
 		shell.setBackgroundImage(new Image(null, image.getImageData().scaledTo(this.width,this.height)));
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
+		//Label1 - IP
+		Label SIP = new Label(shell, SWT.NONE);
+		SIP.setText("Current Server IP: ");
+		SIP.setBackground(new Color(null, new RGB(255, 255, 255)));
 		
 		//Text1 - Current IP
-		this.TIP = new Text(shell, SWT.BORDER);
-		this.TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		TIP = new Text(shell, SWT.BORDER);
+		TIP.setBackground(new Color(null, new RGB(255, 255, 255)));
+		TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 2, 1));
+		TIP.setEnabled(false);
+		
 		//TIP.setText(myServer.getPort());
-		if (commands.get("getIP")==null)
-			System.out.println("error");
 		commandsList.add(commands.get("getIP"));
 		this.setChanged();
 		this.notifyObservers("nothing");
 		
-		//Text1 - Current IP
-		this.TPort = new Text(shell, SWT.BORDER);
-		this.TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
+		//Label2 - Port
+		Label Sport = new Label(shell, SWT.NONE);
+		Sport.setText("Current Server Port: ");
+		Sport.setBackground(new Color(null, new RGB(255, 255, 255)));
+		
+		//Text2 - Current Port
+		TPort = new Text(shell, SWT.BORDER);
+		TPort.setBackground(new Color(null, new RGB(255, 255, 255)));
+		TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		//TIP.setText(myServer.getPort());
 		
-		if (commands.get("getPort")==null)
-			System.out.println("error");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
 		this.notifyObservers("nothing");
 		
-		TPort.setEnabled(false);
+		/*TPort.setEditable(false);
 		TPort.addMouseListener(new MouseListener() {
 				@Override
 				public void mouseDown(MouseEvent e) {
 					TPort.setEnabled(true);
+					System.out.println("1");
 				}
 
 				@Override
 				public void mouseDoubleClick(MouseEvent arg0) {
 					TPort.setEnabled(true);
+					System.out.println("2");
 				}
 
 				@Override
 				public void mouseUp(MouseEvent arg0) {
+					System.out.println("3");
 				}
-		});
+		});*/
 		
 		//button1 - Save port
 		Button BNewMaze=new Button(shell, SWT.PUSH);
@@ -139,9 +152,10 @@ public class serverWindow extends BasicWindow implements SView {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
-		//List1 - Client IP
+		//List for Clients -	<IP>   <PORT>   <TIME>
 		CList = new List(shell, SWT.SINGLE | SWT.BORDER);
-		CList.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		CList.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 3, 3));
+		CList.setBackground(new Color(null, new RGB(255, 255, 255)));
 		
 		shell.addHelpListener(new HelpListener() {
 			
@@ -152,6 +166,26 @@ public class serverWindow extends BasicWindow implements SView {
 				messageBox.setText("Help");
 				messageBox.open();
 			}
+		});
+		
+		//button2 - Stop Server
+		Button Stop=new Button(shell, SWT.PUSH);
+		Stop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Stop.setText("Stop the server");
+		Stop.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						commandsList.add(commands.get("killServer"));
+						setChanged();
+						notifyObservers("nothing");
+					}
+				});
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
 		
 		//http://stackoverflow.com/questions/16899807/swt-modifying-window-close-button-red-x
@@ -191,11 +225,6 @@ public class serverWindow extends BasicWindow implements SView {
 		this.notifyObservers("");
 	}
 	
-	@Override
-	public void displayMaze(Maze m, String name) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void displaySolution(Solution s) {
@@ -210,12 +239,6 @@ public class serverWindow extends BasicWindow implements SView {
 	}
 
 	@Override
-	public void displayClue(String clue) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void getDiagsMode(boolean diag) {
 		// TODO Auto-generated method stub
 		
@@ -223,27 +246,33 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void setIP(String ip) {
-		System.out.println("serverWindow-setip-ip: "+ip);
 		TIP.setText(ip);
 	}
 
 	@Override
 	public void setPort(int port) {
-		System.out.println("serverWindow-setport-port: "+port);
 		String temp=""+port;
 		this.TPort.setText(temp);
-		//this.TPort.setText("ASADSADS");
 	}
 
 	@Override
-	public void update() {
+	public void update(String array) {	//Array is 10.5.5.5 5400 12/06/15-19:01&10.6.6.6 5401 12/06/15-19:05&10.0...
+												//	STRING	INT		STRING	   	STRING 	INT		STRING
 		CList.removeAll();
-	}
-
-	@Override
-	public void setUsers() {
-		// TODO Auto-generated method stub
-		
+		boolean flag=false;
+		int i=0;
+		String line[];
+		String data[];
+		if(array!=null)
+			flag=true;
+		while(flag==true){
+			line=array.split("&");		//line[0] = IP PORT TIME, line[1] = IP PORT TIME
+			data=line[i].split(" ");	//Data[0] = IP, Data[1]=PORT, Data[2]=TIME
+			CList.add(data[0]+"\t"+data[1]+"\t"+data[2]);	//<IP>-tab-<port>-tab-<time>
+			i++;
+			if(i==line.length)
+				flag=false;
+		}
 	}
 	
 } //Class close

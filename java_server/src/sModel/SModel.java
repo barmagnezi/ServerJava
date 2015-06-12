@@ -13,8 +13,9 @@ import algorithms.search.Solution;
 public interface SModel {
 	public String GetIP();
 	public int GetPort();
-	public void setPort(String arg);
-	public Object getUsers(String arg);
+	public void setPort(int port);
+	public String getUsers();
+	public void killServer();
 	
 	/**
 	 * This method generates a maze using threads with an inputed data.

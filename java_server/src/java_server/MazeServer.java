@@ -34,6 +34,7 @@ public class MazeServer extends Observable implements SModel{
 	int dely;
 	ServerSocket myServer;
 	ClientHandler ch;
+	ExecutorService executor;
 	
 	public MazeServer(ClientHandler ch,int port, int Dely,int numOfClients){
 		this.ch=ch;
@@ -52,8 +53,7 @@ public class MazeServer extends Observable implements SModel{
 		try {
 			this.myServer = new ServerSocket(port);
 			this.myServer.setSoTimeout(dely);
-			System.out.println("CHECK");
-			ExecutorService executor = Executors.newFixedThreadPool(Allowed);
+			executor = Executors.newFixedThreadPool(Allowed);
 			while(run){
 				Socket someClient=myServer.accept();
 				executor.execute (new Runnable() {
@@ -67,6 +67,7 @@ public class MazeServer extends Observable implements SModel{
 							someClient.getInputStream().close();
 							someClient.getOutputStream().close();
 							someClient.close();
+							clientNum--;
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -131,13 +132,27 @@ public class MazeServer extends Observable implements SModel{
 
 	@Override
 	public String GetIP() {
+		URL whatismyip = null;
+		try {
+			whatismyip = new URL("http://checkip.amazonaws.com");
+		} catch (MalformedURLException e2) {
+			e2.printStackTrace();
+		}
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new InputStreamReader(
+			                whatismyip.openStream()));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		String ip = null;
 		try {
-			ip= Inet4Address.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
+			ip = in.readLine();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} //you get the IP as a String
 		return ip;
 	}
 
@@ -163,9 +178,6 @@ public class MazeServer extends Observable implements SModel{
 		return port;
 	}
 
-	public void setPort(int port) {
-		this.port = port;
-	}
 
 	public boolean isRun() {
 		return run;
@@ -200,9 +212,35 @@ public class MazeServer extends Observable implements SModel{
 	}
 
 	@Override
-	public void setPort(String arg) {
+	public void setPort(int port) {
+		this.port=port;
+		killServer();
+		start();
+	}
+
+	@Override
+	public String getUsers() {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public void killServer() {
+		if(clientNum>0){
+			this.setChanged();
+			this.notifyObservers("Can't close server when some("+clientNum+") are connected");
+		}
+		else{
+			try {
+				if(myServer!=null)
+					myServer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(executor!=null)
+				executor.shutdown();
+		}
+		System.out.println("KILL");
 	}
 
 }

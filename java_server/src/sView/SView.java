@@ -15,8 +15,7 @@ import algorithms.search.Solution;
 public interface SView {
 	void setIP(String ip);
 	void setPort(int port);
-	void update();
-	void setUsers();
+	void update(String array);
 	/**
 	 * Starts the view with the myCLI.
 	 */
@@ -30,27 +29,12 @@ public interface SView {
 	 * Takes out a user command from our user command queue.
 	 */
 	Command getUserCommand(); 
-	/**
-	 * Displays the received maze using MyMazeDispleyer.
-	 * @param m Maze.
-	 */
-	void displayMaze(Maze m,String name); 
-	/**
-	 * Displays the received solution using MySolutionDispleyer.
-	 * @param s Solution.
-	 */
+
 	void displaySolution(Solution s);
 	/**
 	 * Displays a string to our outputStream.
 	 */
 	void displayString(String msg);
-	/**
-	 * Displays the clue
-	 */
-	void displayClue(String clue);
-	/**
-	 * set in the view the diags Mode
-	 * @param diag
-	 */
+
 	void getDiagsMode(boolean diag);
 }

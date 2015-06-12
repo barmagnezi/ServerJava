@@ -45,7 +45,6 @@ public class MazeServer extends Observable implements SModel{
 		this.dely=Dely;
 	}
 	
-	@Override
 	public void start(){
 		System.out.println("Maze server START");
 		System.out.println("<---SERVER side--->");
@@ -80,56 +79,6 @@ public class MazeServer extends Observable implements SModel{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-	}
-
-	@Override
-	public void generateMaze(String name, int rows, int cols) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Maze getMaze(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void solveMaze(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Solution getSolution(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void stop() {
-		/*XMLEncoder e = null;	=================================================Not finished - YOM STUDENT
-		try {
-			e = new XMLEncoder(new FileOutputStream("resources/properties.xml"));
-		} catch (FileNotFoundException e1) {
-			this.setChanged();
-			this.notifyObservers("error while saving the properties.");
-		}
-		e.writeObject(this.properties);
-		e.flush();
-		e.close();*/
-	}
-
-	@Override
-	public void setProperties(PropertiesModel mproperties) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getClue(String arg) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -246,5 +195,12 @@ public class MazeServer extends Observable implements SModel{
 		}
 		System.out.println("KILL");
 	}
+
+	@Override
+	public Object getUsers(String arg) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

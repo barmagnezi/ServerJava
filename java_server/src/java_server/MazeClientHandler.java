@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,6 +14,8 @@ import java.util.Observable;
 import java.util.Queue;
 
 import model.OffLineModel;
+import model.StringMaze;
+import model.StringSolution;
 
 import org.hibernate.loader.custom.Return;
 
@@ -23,7 +26,7 @@ import algorithms.search.Solution;
 import view.View;
 
 public class MazeClientHandler extends Observable implements ClientHandler,View {
-	ObjectOutputStream writer;
+	PrintStream writer;
 	BufferedReader reader;
 	HashMap<String, Command> commands;
 	Queue<Command> commandsList;
@@ -31,11 +34,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 
 	@Override
 	public void HandleClient(InputStream input, OutputStream outputStream) {
-		try {
-			writer=new ObjectOutputStream(outputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writer = new PrintStream(outputStream);		
 		reader=new BufferedReader(new InputStreamReader(input));
 		commandsList= new LinkedList<Command>();
 		OffLineModel m=new OffLineModel();
@@ -82,60 +81,36 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 
 	@Override
 	public void displayMaze(Maze m, String name) {
-		try {
-			writer.writeObject("sentMaze");
-			writer.writeObject(name);
-			writer.writeObject(m);
+			writer.println("sentMaze");
+			writer.println(name);
+			writer.println(StringMaze.MazeToString(m));
 			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void displaySolution(Solution s) {
-		try {
-			writer.writeObject("sentSolution");
-			writer.writeObject(s);
+			writer.println("sentSolution");
+			writer.println(StringSolution.SolutionToString(s));
 			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@Override
 	public void displayString(String msg) {
-		try {
-			writer.writeObject("sentString");
-			writer.writeObject(msg);
+			writer.println("sentString");
+			writer.println(msg);
 			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void displayClue(String clue) {
-		try {
-			writer.writeObject("sentClue");
-			writer.writeObject(clue);
+			writer.println("sentClue");
+			writer.println(clue);
 			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void getDiagsMode(boolean diag) {
-		Boolean diagObject=diag;
-		try {
-			writer.writeObject("sentDiagsMode");
-			writer.writeObject(diagObject);
-			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 	}
 	
 	@Override

@@ -36,9 +36,4 @@ public class ClientHandlerStub implements ClientHandler {
 
 	}
 
-	@Override
-	public ClientHandler CreateNewClientHandler() {
-		return null;
-	}
-
 }

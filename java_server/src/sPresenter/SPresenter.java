@@ -84,6 +84,7 @@ public class SPresenter implements Observer{
 	private void addAllCommands(){
 		commands.put("getIP", new getIPCommand());
 		commands.put("getPort", new getPortCommand());
+		commands.put("setPort", new setPortCommand());
 		//Old
 		commands.put("generateMaze", new generateMazeCommand());
 		/*commands.put("displayMaze", new displaymazeCommand());
@@ -110,7 +111,13 @@ public class SPresenter implements Observer{
 			view.setPort(model.GetPort());
 		}
 	}
-	
+	public class setPortCommand implements Command{
+
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			model.setPort(arg);
+		}
+	}
 	
 	
 	//the argument must be (name) (int rows),(int cols)

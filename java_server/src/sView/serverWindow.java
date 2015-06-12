@@ -10,15 +10,19 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
@@ -82,14 +86,31 @@ public class serverWindow extends BasicWindow implements SView {
 		this.TPort = new Text(shell, SWT.BORDER);
 		this.TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		//TIP.setText(myServer.getPort());
+		
 		if (commands.get("getPort")==null)
 			System.out.println("error");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
 		this.notifyObservers("nothing");
 		
+		TPort.setEnabled(false);
+		TPort.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseDown(MouseEvent e) {
+					TPort.setEnabled(true);
+				}
+
+				@Override
+				public void mouseDoubleClick(MouseEvent arg0) {
+					TPort.setEnabled(true);
+				}
+
+				@Override
+				public void mouseUp(MouseEvent arg0) {
+				}
+		});
 		
-		//button1 - Create New Maze
+		//button1 - Save port
 		Button BNewMaze=new Button(shell, SWT.PUSH);
 		BNewMaze.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));		
 		BNewMaze.setText("Save port");
@@ -99,15 +120,28 @@ public class serverWindow extends BasicWindow implements SView {
 				shell.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						//new CreateNMaze("New Maze", 300, 150, display, gameView).run();
-						//gameView.setFocus();
+						if(Integer.parseInt(TPort.getText())<1024){
+							//Error
+						}
+						else{
+							if (commands.get("setPort")==null)
+								System.out.println("error");
+							commandsList.add(commands.get("setPort"));
+							setChanged();
+							notifyObservers(TPort.getText());
+							
+							TPort.setEnabled(true);
+						}
 					}
 				});
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
-		
+		//List1 - Client IP
+		List CIP = new List(shell, SWT.SINGLE | SWT.BORDER);
+		List Cport = new List(shell, SWT.SINGLE | SWT.BORDER);
+		List Ctime = new List(shell, SWT.SINGLE | SWT.BORDER);
 		
 		shell.addHelpListener(new HelpListener() {
 			

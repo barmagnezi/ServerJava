@@ -12,11 +12,8 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
 
-import model.OffLineModel;
-
 import org.hibernate.loader.custom.Return;
 
-import presenter.Presenter;
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
@@ -37,10 +34,6 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 		}
 		reader=new BufferedReader(new InputStreamReader(input));
 		commandsList= new LinkedList<Command>();
-		OffLineModel m=new OffLineModel();
-		Presenter p=new Presenter(this, m);
-		this.addObserver(p);
-		m.addObserver(p);
 		start();
 	}
 
@@ -135,10 +128,5 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public ClientHandler CreateNewClientHandler() {
-		return new MazeClientHandler();
 	}
 }

@@ -13,7 +13,7 @@ import algorithms.search.Solution;
 public interface SModel {
 	public String GetIP();
 	public int GetPort();
-	
+	public void setPort(String arg);
 	
 	/**
 	 * This method generates a maze using threads with an inputed data.

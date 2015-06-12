@@ -88,6 +88,7 @@ public class Presenter implements Observer{
 		commands.put("help", new helpCommand());
 		commands.put("setNewProperties", new setPropertiesCommand());
 		commands.put("GetClue", new clueCommand());
+		commands.put("TheDiagsModeIs",new setDiagsCommand());
 		//commands.put("checkMotion", new checkMotionCommand());
 	}
 	//commands
@@ -192,18 +193,14 @@ public class Presenter implements Observer{
 		}
 		
 	}
-	/*checkMotion not work
-	public class checkMotionCommand implements Command{
-
+	public class setDiagsCommand  implements Command {
 		@Override
-		public void doCommand(String arg, PrintStream out) {
-			String[] data=arg.split(" ");
-			boolean flag = model.checkMotion(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3]), Integer.parseInt(data[4]));
-			System.out.println(flag);
-			view.getData(flag, "checkMotion");
+		public void doCommand(String arg,PrintStream out) {
+			if(arg.equals("true"))
+				model.setDiags(true);
+			model.setDiags(false);
 		}
-		
-	}*/
+	}
 
 		
 }

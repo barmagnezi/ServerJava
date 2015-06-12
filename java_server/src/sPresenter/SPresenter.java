@@ -10,6 +10,7 @@ import java.util.Observer;
 
 import View.Command;
 import sModel.SModel;
+import sView.SView;
 import view.View;
 import model.Model;
 
@@ -22,7 +23,7 @@ import model.Model;
 */
 public class SPresenter implements Observer{
 	SModel model;
-	View view;
+	SView view;
 	HashMap<String, Command> commands;
 	
 	/**
@@ -32,7 +33,7 @@ public class SPresenter implements Observer{
 	 * @param m The Model object.
 	 * @param row The number of rows our maze will have (>2)
 	 */
-	public SPresenter(View v, SModel m) {
+	public SPresenter(SView v, SModel m) {
 		model=m;
 		view=v;
 		commands=new HashMap<String, Command>();
@@ -81,21 +82,39 @@ public class SPresenter implements Observer{
 
 	//create commands
 	private void addAllCommands(){
+		commands.put("getIP", new getIPCommand());
+		commands.put("getPort", new getPortCommand());
+		//Old
 		commands.put("generateMaze", new generateMazeCommand());
-		commands.put("displayMaze", new displaymazeCommand());
+		/*commands.put("displayMaze", new displaymazeCommand());
 		commands.put("solveMaze", new solvemazeCommand());
 		commands.put("displaySolution", new displaysolutionCommand());
 		commands.put("exit", new exitCommand());
 		commands.put("help", new helpCommand());
 		commands.put("setNewProperties", new setPropertiesCommand());
-		commands.put("GetClue", new clueCommand());
+		commands.put("GetClue", new clueCommand());*/
 		//commands.put("checkMotion", new checkMotionCommand());
 	}
 	//commands
+	public class getIPCommand implements Command{
+
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			view.setIP(model.GetIP());
+		}
+	}
+	public class getPortCommand implements Command{
+
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			view.setPort(model.GetPort());
+		}
+	}
+	
+	
 	
 	//the argument must be (name) (int rows),(int cols)
 	public class generateMazeCommand implements Command {
-
 		@Override
 		/**
 		 * Disassembling the generateMaze received command, setting parameters and calling for the function.

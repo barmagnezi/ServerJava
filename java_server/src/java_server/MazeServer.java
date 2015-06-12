@@ -1,11 +1,18 @@
 package java_server;
 
 import java.beans.XMLEncoder;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,23 +24,34 @@ import presenter.Presenter;
 import presenter.PropertiesModel;
 import sModel.SModel;
 //public class MazeServer extends MyServer implements SModel{
-public class MazeServer extends MyServer implements SModel{
-
-	public MazeServer(int port, int Dely, int numOfClients) {
-		super(port, Dely, numOfClients);
-		
+public class MazeServer extends Observable implements SModel{
+	MazeServer serv;
+	
+	//From old MyServer
+	protected int port;
+	protected boolean run;
+	int Allowed;
+	static int clientNum=0;
+	int dely;
+	ClientHandler CH;
+	ServerSocket myServer;
+	
+	public MazeServer(int port, int Dely,int numOfClients){
+		run=true;
+		this.port=port;
+		this.Allowed=numOfClients;
+		this.dely=Dely;
 	}
 	
 	
-	@Override
-	public void Start(ClientHandler ch){
-		MazeClientHandler CH=(MazeClientHandler)ch;
+	public void Start(MazeClientHandler ch){
+		MazeClientHandler CH=ch;
 		System.out.println("<---SERVER side--->");
-		System.out.println("Enter port:");
+		this.port=5000;
+		System.out.println("Def Port is: "+port);
 		try {
-			myServer = new ServerSocket(port);
-			myServer.setSoTimeout(dely);
-			System.out.println("Enter number of clients:");
+			this.myServer = new ServerSocket(port);
+			this.myServer.setSoTimeout(dely);
 			ExecutorService executor = Executors.newFixedThreadPool(Allowed);
 			while(run){
 				Socket someClient=myServer.accept();
@@ -89,8 +107,19 @@ public class MazeServer extends MyServer implements SModel{
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-		
+		/*System.out.println("Enter command\nStart <port-number> <number-of-client>");
+		int port,num;
+		String s;
+		Scanner in = new Scanner(System.in);
+	    s = in.nextLine();
+	    String[] ServerProp = s.split(" ");*/
+		serv=new MazeServer(5400,5000000, 5);	//Change to get from the XML the detils
+		MazeClientHandler CH = new MazeClientHandler();
+		try {
+			serv.Start(CH);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -117,6 +146,80 @@ public class MazeServer extends MyServer implements SModel{
 	public String getClue(String arg) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String GetIP() {
+		String ip = null;
+		try {
+			ip= Inet4Address.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ip;
+	}
+
+
+	@Override
+	public int GetPort() {
+		return port;
+	}
+	
+	//From old MyServer
+	
+	//START
+	public void Stop(){
+		//close all active servers ..
+		run=false;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public boolean isRun() {
+		return run;
+	}
+
+	public void setRun(boolean run) {
+		this.run = run;
+	}
+
+	public int getAllowed() {
+		return Allowed;
+	}
+
+	public void setAllowed(int allowed) {
+		Allowed = allowed;
+	}
+
+	public static int getClientNum() {
+		return clientNum;
+	}
+
+	public static void setClientNum(int clientNum) {
+		//MyServer.clientNum = clientNum;
+	}
+
+	public int getDely() {
+		return dely;
+	}
+
+	public void setDely(int dely) {
+		this.dely = dely;
+	}
+
+	public ClientHandler getCH() {
+		return CH;
+	}
+
+	public void setCH(ClientHandler cH) {
+		CH = cH;
 	}
 
 	

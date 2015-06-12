@@ -11,6 +11,10 @@ import algorithms.search.Solution;
 * @since 17.5.2015
 */
 public interface SModel {
+	public String GetIP();
+	public int GetPort();
+	
+	
 	/**
 	 * This method generates a maze using threads with an inputed data.
 	 * After it finishes it sent a notification with as "maze "+name+" is ready.".

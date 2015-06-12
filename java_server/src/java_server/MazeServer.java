@@ -32,7 +32,6 @@ public class MazeServer extends Observable implements SModel{
 	int Allowed;
 	static int clientNum=0;
 	int dely;
-	ClientHandler CH;
 	ServerSocket myServer;
 	ClientHandler ch;
 	
@@ -64,10 +63,7 @@ public class MazeServer extends Observable implements SModel{
 							clientNum++;
 							System.out.println("Client "+clientNum+" CONNECTED");
 							OffLineModel m=new OffLineModel();
-							Presenter p=new Presenter(CH, m);
-							CH.addObserver(p);
-							m.addObserver(p);
-							CH.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
+							ch.CreateNewClientHandler().HandleClient(someClient.getInputStream(), someClient.getOutputStream());
 							someClient.getInputStream().close();
 							someClient.getOutputStream().close();
 							someClient.close();
@@ -201,14 +197,6 @@ public class MazeServer extends Observable implements SModel{
 
 	public void setDely(int dely) {
 		this.dely = dely;
-	}
-
-	public ClientHandler getCH() {
-		return CH;
-	}
-
-	public void setCH(ClientHandler cH) {
-		CH = cH;
 	}
 
 	@Override

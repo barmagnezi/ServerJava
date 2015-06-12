@@ -73,7 +73,10 @@ public class SPresenter implements Observer{
 				if(arg==null)
 					return;
 				else{
-					view.displayString((String)arg);
+					if(arg=="newClient" || arg=="delClient")
+						view.update();
+					else
+						view.displayString((String)arg);
 				}					
 			}
 		}

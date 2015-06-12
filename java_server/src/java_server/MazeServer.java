@@ -53,6 +53,7 @@ public class MazeServer extends Observable implements SModel{
 		try {
 			this.myServer = new ServerSocket(port);
 			this.myServer.setSoTimeout(dely);
+			System.out.println("CHECK");
 			ExecutorService executor = Executors.newFixedThreadPool(Allowed);
 			while(run){
 				Socket someClient=myServer.accept();
@@ -208,6 +209,12 @@ public class MazeServer extends Observable implements SModel{
 
 	public void setCH(ClientHandler cH) {
 		CH = cH;
+	}
+
+	@Override
+	public void setPort(String arg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

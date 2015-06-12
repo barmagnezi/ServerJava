@@ -15,7 +15,7 @@ import algorithms.search.Solution;
 public interface SView {
 	void setIP(String ip);
 	void setPort(int port);
-	
+	void update();
 	/**
 	 * Starts the view with the myCLI.
 	 */

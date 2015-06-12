@@ -231,5 +231,10 @@ public class serverWindow extends BasicWindow implements SView {
 		this.TPort.setText(temp);
 		//this.TPort.setText("ASADSADS");
 	}
+
+	@Override
+	public void update() {
+		
+	}
 	
 } //Class close

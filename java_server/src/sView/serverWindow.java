@@ -61,6 +61,7 @@ public class serverWindow extends BasicWindow implements SView {
 	@Override
 	protected void initWidgets() {
 		shell.setLayout(new GridLayout(3,false));
+		System.out.println("VIEW INITWIDGETS");
 		
 		Image image = new Image(null,"resources/images/Servbackground.png");
 		shell.setBackgroundImage(new Image(null, image.getImageData().scaledTo(this.width,this.height)));
@@ -82,11 +83,11 @@ public class serverWindow extends BasicWindow implements SView {
 		TPort.setText("SENIA");
 		TPort.setEnabled(false);
 		
-		if (commands.get("getPort")==null)
+		/*if (commands.get("getPort")==null)
 			System.out.println("error");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
-		this.notifyObservers("nothing");
+		this.notifyObservers("nothing");*/
 		//TPort.setText(myServer.getPort());
 		
 		//button1 - Create New Maze
@@ -194,7 +195,8 @@ public class serverWindow extends BasicWindow implements SView {
 	public void setPort(int port) {
 		System.out.println("serverWindow-setport-port: "+port);
 		String temp=""+port;
-		TPort.setText(temp);
+		//TPort.setText(temp);
+		TPort.setText("SENAIAEAE");
 		
 	}
 	

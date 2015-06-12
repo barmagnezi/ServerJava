@@ -60,7 +60,12 @@ public class SPresenter implements Observer{
 	public void update(Observable o, Object arg) {
 		if(arg!=null && ((String)arg).equals("start")){
 			System.out.println("model.start()");
-			model.start();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					model.start();
+				}
+			}).start();
 			//view.displayString("\nIf you run the program first time use the 'help -h' command to see how to use this command line interface\n");
 			return;
 		}

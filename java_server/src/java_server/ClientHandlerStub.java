@@ -32,8 +32,10 @@ public class ClientHandlerStub implements ClientHandler {
 				e.printStackTrace();
 			}
 		}
-		
-
+	}
+	@Override
+	public ClientHandler CreateNewClientHandler() {
+		return null;
 	}
 
 }

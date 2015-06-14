@@ -19,9 +19,10 @@ import model.StringSolution;
 
 public class MazeClientHandlerwithoutMVP implements ClientHandler{
 
-	public void close(){
-		model.stop();
-	}
+	Model model=new OffLineModel();
+	PropertiesModel prop=null;
+	
+	
 	public void newProp(String path){
 		InputStream from = null;
 		PropertiesModel Mproperties;
@@ -33,9 +34,9 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 			theDir.mkdirs();
 			Mproperties = new PropertiesModel(null);}		
 		model.setProperties(Mproperties);
+		prop=Mproperties;
 	}
-	Model model=new OffLineModel();
-	PropertiesModel prop=null;
+	
 	@Override
 	public void HandleClient(InputStream input, OutputStream outputStream) {
 		if(prop==null)
@@ -58,7 +59,15 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 				if(commandArg[0].equals("generateMaze")){
 					String[] nameIndex= commandArg[1].split(" ");
 					String[] index=nameIndex[1].split(",");
-					model.generateMaze(nameIndex[1], Integer.getInteger(index[0]), Integer.getInteger(index[1]));
+					System.out.println(nameIndex[0]);
+					System.out.println(index[0]);
+					System.out.println(index[1]);
+					//synchronized (model) {
+					if(model==null)
+						System.out.println("sdvfdsbv");
+					model.generateMaze("vsdfv", 5, 5);
+					model.generateMaze(nameIndex[0], Integer.getInteger(index[0]), Integer.getInteger(index[1]));
+					//}
 				}
 				if(commandArg[0].equals("getMaze")){
 					Maze m=model.getMaze(commandArg[1]);
@@ -84,5 +93,8 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 				System.out.println("cant read from client");
 			}
 		}
+	}
+	public void close(){
+		model.stop();
 	}
 }

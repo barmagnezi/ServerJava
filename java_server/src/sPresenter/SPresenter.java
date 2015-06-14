@@ -39,6 +39,7 @@ public class SPresenter implements Observer{
 		commands=new HashMap<String, Command>();
 		addAllCommands();
 		view.setCommands(commands);
+		//model.setCommands(commands);	//Only for sending an update when a client connects/disconnects.	-	changed to send "update" throw the notify.
 		setNewProperties("resources/properties.xml");
 	}
 	public void setNewProperties(String path){
@@ -52,7 +53,8 @@ public class SPresenter implements Observer{
 			File theDir = new File("resources");
 			theDir.mkdirs();
 			Mproperties = new SPropertiesModel(null);}		
-		//model.setProperties(Mproperties);
+		model.setProperties(Mproperties);
+		//view.getDiagsMode(Mproperties.isDiag());
 	}
 	
 	@Override
@@ -77,8 +79,8 @@ public class SPresenter implements Observer{
 				if(arg==null)
 					return;
 				else{
-					if(arg=="update" || arg=="newClient" || arg=="delClient")
-						view.update((String) arg);
+					if(arg=="update")
+						view.update(model.getUsers());
 					else
 						view.displayString((String)arg);
 				}					
@@ -92,7 +94,6 @@ public class SPresenter implements Observer{
 		commands.put("getIP", new getIPCommand());
 		commands.put("getPort", new getPortCommand());
 		commands.put("setPort", new setPortCommand());
-		commands.put("update", new updateCommand());
 		commands.put("killServer", new killServerCommand());
 		//Old
 		commands.put("exit", new exitCommand());
@@ -117,12 +118,6 @@ public class SPresenter implements Observer{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			model.setPort(Integer.parseInt(arg));
-		}
-	}
-	public class updateCommand implements Command{
-		@Override
-		public void doCommand(String arg, PrintStream out) {
-			view.update(arg);
 		}
 	}
 	public class killServerCommand implements Command{

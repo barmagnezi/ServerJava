@@ -1,6 +1,11 @@
 package sModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import presenter.PropertiesModel;
+import sPresenter.SPropertiesModel;
+import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
@@ -14,9 +19,16 @@ public interface SModel {
 	public String GetIP();
 	public int GetPort();
 	public void setPort(int port);
-	public String getUsers();
+	public ArrayList<MyClient> getUsers();
 	public void killServer();
-	public void start();
-	public void stop();
 	
+	/**
+	 * Sets the server.
+	 */
+	public void start();
+	/**
+	 * Stops the work and saves the data.
+	 */
+	public void stop();
+	public void setProperties(SPropertiesModel mproperties);
 }

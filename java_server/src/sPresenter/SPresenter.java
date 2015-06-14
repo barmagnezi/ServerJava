@@ -60,7 +60,7 @@ public class SPresenter implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg!=null && ((String)arg).equals("start")){
-			System.out.println("model.start()");
+			//System.out.println("model.start()");
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -117,6 +117,7 @@ public class SPresenter implements Observer{
 	public class setPortCommand implements Command{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
+			System.out.println("Presenter, port:"+arg);
 			model.setPort(Integer.parseInt(arg));
 		}
 	}

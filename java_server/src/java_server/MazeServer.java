@@ -10,6 +10,7 @@ import java.net.BindException;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class MazeServer extends Observable implements SModel{
 	protected int port;
 	protected boolean run;
 	int Allowed;
-	static int clientNum=0;
+	static int clientNum=1;
 	int dely;
 	ServerSocket myServer;
 	MazeClientHandlerwithoutMVP ch;
@@ -35,9 +36,11 @@ public class MazeServer extends Observable implements SModel{
 	ArrayList<MyClient> Clients;
 	private SPropertiesModel properties;
 	
+	private boolean flagK;
+	
 	public MazeServer(MazeClientHandlerwithoutMVP ch){
 		this.ch=ch;
-		ch.newProp("resources/gameProperties.xml");
+		ch.newProp("resources/serverProperties.xml");
 		run=true;
 	}
 	
@@ -49,11 +52,10 @@ public class MazeServer extends Observable implements SModel{
 		//System.out.println("Def Port is: "+this.port);
 		Clients = new ArrayList<MyClient>();
 		//
-		port=5401;
 		try {
 			try {
 				this.myServer = new ServerSocket(port);
-			} catch (BindException e2) {
+			} catch (BindException e) {
 				sendMsg("Port is already used, choose another one");
 			}
 			if(myServer!=null)
@@ -61,29 +63,36 @@ public class MazeServer extends Observable implements SModel{
 			executor = Executors.newFixedThreadPool(Allowed);
 			if(myServer!=null){
 				while(run){
-					someClient=myServer.accept();
+					try {
+						someClient=myServer.accept();
+					} catch (SocketException e) {
+						sendMsg("Error on accept");
+					}
+
 					Clients.add(new MyClient(someClient, clientNum, new Date()));
 					sendUpdate();
-					executor.execute (new Runnable() {
-						@Override
-						public void run() {
-							try {
-								clientNum++;
-								System.out.println("Client "+clientNum+" CONNECTED");
-								ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
-								someClient.getInputStream().close();
-								someClient.getOutputStream().close();
-								for(int i=0;i<Clients.size();i++)
-									if(Clients.get(i).getClient()==someClient)
-										Clients.remove(i);
-								someClient.close();
-								sendUpdate();
-								clientNum--;
-							} catch (IOException e) {
-								sendMsg("Error handeling a client("+clientNum+")");
+					if(executor!=null){
+						executor.execute (new Runnable() {
+							@Override
+							public void run() {
+								try {
+									clientNum++;
+									System.out.println("Client "+clientNum+" CONNECTED");
+									ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
+									someClient.getInputStream().close();
+									someClient.getOutputStream().close();
+									for(int i=0;i<Clients.size();i++)
+										if(Clients.get(i).getClient()==someClient)
+											Clients.remove(i);
+									someClient.close();
+									sendUpdate();
+									clientNum--;
+								} catch (IOException e) {
+									sendMsg("Error handeling a client("+clientNum+")");
+								}
 							}
-						}
-					});
+						});
+					}
 				}
 			}
 			if(ch!=null)
@@ -91,7 +100,8 @@ public class MazeServer extends Observable implements SModel{
 			if(myServer!=null)
 				myServer.close();
 		} catch (IOException e1) {
-			sendMsg("Error opening a server");
+			if(flagK==false)
+				sendMsg("Error opening a server");
 		}
 	}
 	
@@ -144,7 +154,6 @@ public class MazeServer extends Observable implements SModel{
 	 */
 	public void setProperties(SPropertiesModel prop){
 		properties=(SPropertiesModel) prop;
-		System.out.println("Setting Server props");
 		if(prop!=null){
 			this.port=properties.getPort();
 			this.dely=properties.getDely();
@@ -179,9 +188,16 @@ public class MazeServer extends Observable implements SModel{
 	public void setPort(int port) {
 		//System.out.println("set Port func in model, port "+port);
 		this.port=port;
+		flagK=true;
 		killServer();
 		run=true;
+		try {
+			myServer.close();
+		} catch (IOException e) {
+			System.out.println("SEEAAE");
+		}
 		start();
+		flagK=false;
 	}
 	@Override
 	public ArrayList<MyClient> getUsers() {
@@ -196,6 +212,7 @@ public class MazeServer extends Observable implements SModel{
 	
 	@Override
 	public void killServer() {
+		flagK=true;
 		//Close all active users ..
 		for(int i=0;i<Clients.size();i++){
 			try {
@@ -205,7 +222,7 @@ public class MazeServer extends Observable implements SModel{
 			}
 		}
 		Clients.removeAll(Clients);
-		
+		sendUpdate();
 		//Closing server
 		if(ch!=null)
 			ch.close();
@@ -216,8 +233,8 @@ public class MazeServer extends Observable implements SModel{
 		} catch (IOException e) {
 			sendMsg("Error closing the server");
 		}
-		if(executor!=null)
-			executor.shutdown();
+		//if(executor!=null)
+		//	executor.shutdown();
 		XMLEncoder e = null;
 		try {
 			e = new XMLEncoder(new FileOutputStream("resources/serverProperties.xml"));
@@ -228,6 +245,7 @@ public class MazeServer extends Observable implements SModel{
 		e.flush();
 		e.close();
 		System.out.println("KILL");
+		flagK=false;
 	}
 
 }		//MazeServer class close.

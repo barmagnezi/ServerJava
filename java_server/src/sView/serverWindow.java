@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -15,6 +16,8 @@ import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
@@ -252,6 +255,9 @@ public class serverWindow extends BasicWindow implements SView {
 	            messageBox.setMessage("Close the ServerGUI?(Server will still run)");
 	            if(messageBox.open() == SWT.YES){
 	            	arg.doit = true;
+					commandsList.add(commands.get("killServer"));
+					setChanged();
+					notifyObservers("nothing");
 	            }else{
 	            	arg.doit = false;
 	            }
@@ -311,10 +317,21 @@ public class serverWindow extends BasicWindow implements SView {
 	public void update(ArrayList<MyClient> arrayList) {
 		getDisplay().getDefault().asyncExec(new Runnable() {
 		    public void run() {
-		    	CList.removeAll();
-		    	DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-		    	for(int i=0;i<arrayList.size();i++)
-					CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t====DATA:" + df.format(arrayList.get(i).getTimeConnected()));
+		    	if(CList!=null){
+			    	CList.removeAll();
+			    	DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+			    	//System.out.println(arrayList.get(0).getClient().getPort());					//	8327 - Technical port
+			    	//System.out.println(arrayList.get(0).getClient().getLocalPort());				//	5401 - Port(for connection)
+			    	//System.out.println(arrayList.get(0).getClient().getRemoteSocketAddress());	//	/127.0.0.1:8327
+			    	//System.out.println(arrayList.get(0).getClient().getLocalAddress());			//	/127.0.0.1
+			    	//System.out.println(arrayList.get(0).getClient().getLocalSocketAddress());		//	/127.0.0.1:5401
+			    	FontData[] fD = TIP.getFont().getFontData();
+			    	fD[0].setHeight(10);
+			    	fD[0].setStyle(SWT.BOLD);
+			    	CList.setFont(new Font(display,fD[0]));
+			    	for(int i=0;i<arrayList.size();i++)
+						CList.add("IP: "+arrayList.get(i).getClient().getLocalAddress().toString().substring(1, arrayList.get(i).getClient().getLocalAddress().toString().length())+"   "+"Port: "+arrayList.get(i).getClient().getLocalPort()+"   Local Port: "+ arrayList.get(i).getClient().getPort() +"            Client number: " + arrayList.get(i).getClientNum() + "            " + df.format(arrayList.get(i).getTimeConnected()));
+		    	}
 		    }
 		});
 	}

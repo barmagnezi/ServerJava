@@ -62,17 +62,16 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 					System.out.println(nameIndex[0]);
 					System.out.println(index[0]);
 					System.out.println(index[1]);
-					//synchronized (model) {
-					if(model==null)
-						System.out.println("sdvfdsbv");
-					model.generateMaze("vsdfv", 5, 5);
-					model.generateMaze(nameIndex[0], Integer.getInteger(index[0]), Integer.getInteger(index[1]));
-					//}
+					model.generateMaze(nameIndex[0], Integer.parseInt(index[0]), Integer.parseInt(index[1]) );
 				}
 				if(commandArg[0].equals("getMaze")){
+					System.out.println(commandArg[1]);
 					Maze m=model.getMaze(commandArg[1]);
 					writer.println("sentMaze");
-					writer.println(StringMaze.MazeToString(m));
+					if(m==null)
+						writer.println("mazeNotFound");
+					else
+						writer.println(StringMaze.MazeToString(m));
 					writer.flush();
 				}
 				if(commandArg[0].equals("solveMaze")){
@@ -91,10 +90,12 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 				}
 			} catch (IOException e) {
 				System.out.println("cant read from client");
+				break;
 			}
 		}
 	}
 	public void close(){
+		System.out.println("close");
 		model.stop();
 	}
 }

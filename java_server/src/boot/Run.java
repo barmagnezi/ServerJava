@@ -36,7 +36,6 @@ public class Run {
 		v.addObserver(p);
 		m.addObserver(p);
 		v.start();
-		
 		//before
 		/*System.out.println("Enter command\nStart <port-number> <number-of-client>");
 		int port,num;

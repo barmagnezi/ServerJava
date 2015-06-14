@@ -1,5 +1,7 @@
 package sView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -279,10 +281,14 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void displayString(String msg) {
-		MessageBox messageBox = new MessageBox(shell,  SWT.OK);
-		messageBox.setMessage(msg);
-		messageBox.setText("Message");
-		messageBox.open();
+		getDisplay().getDefault().asyncExec(new Runnable() {
+		    public void run() {
+				MessageBox messageBox = new MessageBox(shell,  SWT.OK);
+				messageBox.setMessage(msg);
+				messageBox.setText("Message");
+				messageBox.open();
+			    }
+			});
 	}
 
 	@Override
@@ -306,8 +312,9 @@ public class serverWindow extends BasicWindow implements SView {
 		getDisplay().getDefault().asyncExec(new Runnable() {
 		    public void run() {
 		    	CList.removeAll();
+		    	DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		    	for(int i=0;i<arrayList.size();i++)
-					CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t" + arrayList.get(i).getTimeConnected());
+					CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t====DATA:" + df.format(arrayList.get(i).getTimeConnected()));
 		    }
 		});
 	}

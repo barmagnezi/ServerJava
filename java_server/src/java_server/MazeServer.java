@@ -6,11 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.BindException;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,38 +51,47 @@ public class MazeServer extends Observable implements SModel{
 		//
 		port=5401;
 		try {
-			this.myServer = new ServerSocket(port);
-			this.myServer.setSoTimeout(dely);
-			executor = Executors.newFixedThreadPool(Allowed);
-			while(run){
-				someClient=myServer.accept();
-				Clients.add(new MyClient(someClient, clientNum, System.currentTimeMillis()));
-				sendUpdate();
-				executor.execute (new Runnable() {
-					@Override
-					public void run() {
-						try {
-							clientNum++;
-							System.out.println("Client "+clientNum+" CONNECTED");
-							ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
-							someClient.getInputStream().close();
-							someClient.getOutputStream().close();
-							for(int i=0;i<Clients.size();i++)
-								if(Clients.get(i).getClient()==someClient)
-									Clients.remove(i);
-							someClient.close();
-							sendUpdate();
-							clientNum--;
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
+			try {
+				this.myServer = new ServerSocket(port);
+			} catch (BindException e2) {
+				sendMsg("Port is already used, choose another one");
 			}
-			ch.close();
-			myServer.close();
+			if(myServer!=null)
+				myServer.setSoTimeout(dely);
+			executor = Executors.newFixedThreadPool(Allowed);
+			if(myServer!=null){
+				while(run){
+					someClient=myServer.accept();
+					Clients.add(new MyClient(someClient, clientNum, new Date()));
+					sendUpdate();
+					executor.execute (new Runnable() {
+						@Override
+						public void run() {
+							try {
+								clientNum++;
+								System.out.println("Client "+clientNum+" CONNECTED");
+								ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
+								someClient.getInputStream().close();
+								someClient.getOutputStream().close();
+								for(int i=0;i<Clients.size();i++)
+									if(Clients.get(i).getClient()==someClient)
+										Clients.remove(i);
+								someClient.close();
+								sendUpdate();
+								clientNum--;
+							} catch (IOException e) {
+								sendMsg("Error handeling a client("+clientNum+")");
+							}
+						}
+					});
+				}
+			}
+			if(ch!=null)
+				ch.close();
+			if(myServer!=null)
+				myServer.close();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			sendMsg("Error opening a server");
 		}
 	}
 	
@@ -99,22 +110,21 @@ public class MazeServer extends Observable implements SModel{
 		try {
 			whatismyip = new URL("http://checkip.amazonaws.com");
 		} catch (MalformedURLException e2) {
-			e2.printStackTrace();
+			sendMsg("Error checking external IP address");
 		}
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(new InputStreamReader(
 			                whatismyip.openStream()));
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			sendMsg("Error checking external IP address");
 		}
 
 		String ip = null;
 		try {
 			ip = in.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			sendMsg("Error checking external IP address");
 		} //you get the IP as a String
 		return ip;
 	}
@@ -204,7 +214,7 @@ public class MazeServer extends Observable implements SModel{
 			if(myServer!=null)
 				myServer.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			sendMsg("Error closing the server");
 		}
 		if(executor!=null)
 			executor.shutdown();
@@ -212,8 +222,7 @@ public class MazeServer extends Observable implements SModel{
 		try {
 			e = new XMLEncoder(new FileOutputStream("resources/serverProperties.xml"));
 		} catch (FileNotFoundException e1) {
-			this.setChanged();
-			this.notifyObservers("error while saving the properties.");
+			sendMsg("error while saving the properties.");
 		}
 		e.writeObject(this.properties);
 		e.flush();

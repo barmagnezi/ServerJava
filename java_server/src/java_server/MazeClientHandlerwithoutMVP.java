@@ -19,6 +19,9 @@ import model.StringSolution;
 
 public class MazeClientHandlerwithoutMVP implements ClientHandler{
 
+	public void close(){
+		model.stop();
+	}
 	public void newProp(String path){
 		InputStream from = null;
 		PropertiesModel Mproperties;

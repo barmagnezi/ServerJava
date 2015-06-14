@@ -120,8 +120,4 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 		writer.flush();
 	}
 	
-	@Override
-	public ClientHandler CreateNewClientHandler() {
-		return new MazeClientHandler();
-	}
 }

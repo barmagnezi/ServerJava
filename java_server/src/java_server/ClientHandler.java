@@ -9,5 +9,4 @@ import model.OffLineModel;
 public interface ClientHandler {
 	
 	public void HandleClient(InputStream input,OutputStream outputStream);
-	public ClientHandler CreateNewClientHandler();
 }

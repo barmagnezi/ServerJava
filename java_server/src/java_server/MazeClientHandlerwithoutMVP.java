@@ -52,7 +52,9 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 		//////////////////
 		while(true){
 			try {
-				String[] commandArg=reader.readLine().split(" ", 2);
+				String line=reader.readLine();
+				System.out.println(line);
+				String[] commandArg=line.split(" ", 2);
 				if(commandArg[0].equals("generateMaze")){
 					String[] nameIndex= commandArg[1].split(" ");
 					String[] index=nameIndex[1].split(",");

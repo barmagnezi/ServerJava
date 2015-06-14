@@ -32,6 +32,7 @@ public class SPropertiesModel implements Serializable {
 	 * @param from inputStream containing the XML file.
 	 */
 	public SPropertiesModel(InputStream from) {
+		System.out.println("FROM IS "+from);
 		try{
 			XMLDecoder XML = null;	
 			XML = new XMLDecoder(from);	

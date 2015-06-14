@@ -46,6 +46,8 @@ public class MazeServer extends Observable implements SModel{
 		//this.port=4900;
 		//System.out.println("Def Port is: "+this.port);
 		Clients = new ArrayList<MyClient>();
+		//
+		port=5401;
 		try {
 			this.myServer = new ServerSocket(port);
 			this.myServer.setSoTimeout(dely);
@@ -75,6 +77,7 @@ public class MazeServer extends Observable implements SModel{
 					}
 				});
 			}
+			ch.close();
 			myServer.close();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -138,7 +141,6 @@ public class MazeServer extends Observable implements SModel{
 			this.Allowed=properties.getAllowedClients();
 		}
 		else{
-
 			this.setPort(5400);
 			this.setDely(5000000);
 		}
@@ -165,8 +167,10 @@ public class MazeServer extends Observable implements SModel{
 	}
 	@Override
 	public void setPort(int port) {
+		//System.out.println("set Port func in model, port "+port);
 		this.port=port;
 		killServer();
+		run=true;
 		start();
 	}
 	@Override
@@ -178,14 +182,6 @@ public class MazeServer extends Observable implements SModel{
 	 */
 	@Override
 	public void stop() {
-
-		try {
-			myServer.close();
-		} catch (IOException e) {
-			sendMsg("Error while closing the server");
-			e.printStackTrace();
-		}
-		executor.shutdown();
 	}
 	
 	@Override
@@ -201,6 +197,8 @@ public class MazeServer extends Observable implements SModel{
 		Clients.removeAll(Clients);
 		
 		//Closing server
+		if(ch!=null)
+			ch.close();
 		run=false;
 		try {
 			if(myServer!=null)

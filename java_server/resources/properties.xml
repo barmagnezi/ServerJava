@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_45" class="java.beans.XMLDecoder">
+ <object class="presenter.PropertiesModel" id="PropertiesModel0">
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>AllowedThreads</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <int>5</int>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>MGenerator</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <object class="algorithms.mazeGenerators.DFSMazeGenerator"/>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>nameSolver</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <string>Astar</string>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>Hue</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <object class="algorithms.search.aStar.MazeManhhetenDistance"/>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>diag</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <boolean>false</boolean>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>FileDataMazes</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <string>resources/data.bin</string>
+   </void>
+  </void>
+  <void class="presenter.PropertiesModel" method="getField">
+   <string>hib</string>
+   <void method="set">
+    <object idref="PropertiesModel0"/>
+    <boolean>false</boolean>
+   </void>
+  </void>
+ </object>
+</java>

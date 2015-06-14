@@ -1,9 +1,11 @@
 package sView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observer;
 import java.util.Queue;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -28,9 +30,11 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
+
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
+import sModel.MyClient;
 import view.View;
 
 /**
@@ -224,24 +228,18 @@ public class serverWindow extends BasicWindow implements SView {
 		this.setChanged();
 		this.notifyObservers("");
 	}
-	
-
-	@Override
-	public void displaySolution(Solution s) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void displayString(String msg) {
-		// TODO Auto-generated method stub
-		
+		MessageBox messageBox = new MessageBox(shell,  SWT.OK);
+		messageBox.setMessage(msg);
+		messageBox.setText("Message");
+		messageBox.open();
 	}
 
 	@Override
 	public void getDiagsMode(boolean diag) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -256,6 +254,13 @@ public class serverWindow extends BasicWindow implements SView {
 	}
 
 	@Override
+	public void update(ArrayList<MyClient> arrayList) {
+		CList.removeAll();
+		for(int i=0;i<arrayList.size();i++)
+			CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t" + arrayList.get(i).getTimeConnected());
+	}
+
+	/*@Override		//OLD, BEFORE ARRAYLIST<MYCLIENTS>
 	public void update(String array) {	//Array is 10.5.5.5 5400 12/06/15-19:01&10.6.6.6 5401 12/06/15-19:05&10.0...
 												//	STRING	INT		STRING	   	STRING 	INT		STRING
 		CList.removeAll();
@@ -273,6 +278,6 @@ public class serverWindow extends BasicWindow implements SView {
 			if(i==line.length)
 				flag=false;
 		}
-	}
+	}*/
 	
 } //Class close

@@ -1,7 +1,9 @@
 package sView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import sModel.MyClient;
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
@@ -15,7 +17,7 @@ import algorithms.search.Solution;
 public interface SView {
 	void setIP(String ip);
 	void setPort(int port);
-	void update(String array);
+	void update(ArrayList<MyClient> arrayList);
 	/**
 	 * Starts the view with the myCLI.
 	 */
@@ -29,12 +31,9 @@ public interface SView {
 	 * Takes out a user command from our user command queue.
 	 */
 	Command getUserCommand(); 
-
-	void displaySolution(Solution s);
 	/**
 	 * Displays a string to our outputStream.
 	 */
 	void displayString(String msg);
-
 	void getDiagsMode(boolean diag);
 }

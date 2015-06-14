@@ -6,31 +6,41 @@ import sModel.MyClient;
 import View.Command;
 
 /**
-* View interface.
-* @author  Bar Magnezi and Senia Kalma
-* @version 1.0
-* @since 17.5.2015
-*/
+ * View interface.
+ * 
+ * @author Bar Magnezi and Senia Kalma
+ * @version 1.0
+ * @since 17.5.2015
+ */
 public interface SView {
 	void setIP(String ip);
+
 	void setPort(int port);
+
 	void update(ArrayList<MyClient> arrayList);
+
 	/**
 	 * Starts the view with the myCLI.
 	 */
-	void start(); 
+	void start();
+
 	/**
 	 * Sets out hashmap commands with the received hashmap.
-	 * @param commands hashmap of string<->command containing out available commands.
+	 * 
+	 * @param commands
+	 *            hashmap of string<->command containing out available commands.
 	 */
-	void setCommands(HashMap<String, Command> commands); 
+	void setCommands(HashMap<String, Command> commands);
+
 	/**
 	 * Takes out a user command from our user command queue.
 	 */
-	Command getUserCommand(); 
+	Command getUserCommand();
+
 	/**
 	 * Displays a string to our outputStream.
 	 */
 	void displayString(String msg);
+
 	void getDiagsMode(boolean diag);
 }

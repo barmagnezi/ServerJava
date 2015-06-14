@@ -27,15 +27,15 @@ public class MazeServer extends Observable implements SModel{
 	static int clientNum=0;
 	int dely;
 	ServerSocket myServer;
-	ClientHandler ch;
+	MazeClientHandlerwithoutMVP ch;
 	ExecutorService executor;
 	Socket someClient;
 	ArrayList<MyClient> Clients;
 	private SPropertiesModel properties;
 	
-	public MazeServer(ClientHandler ch){
+	public MazeServer(MazeClientHandlerwithoutMVP ch){
 		this.ch=ch;
-		//ch.newProp("resources/gameProperties.xml");
+		ch.newProp("resources/gameProperties.xml");
 		run=true;
 	}
 	

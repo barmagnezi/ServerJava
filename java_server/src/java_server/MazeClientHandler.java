@@ -45,7 +45,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	@Override
 	public void HandleClient(InputStream input, OutputStream outputStream) {
 	}
-
+	
 	@Override
 	public void start() {
 		this.setChanged();

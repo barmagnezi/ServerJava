@@ -165,7 +165,7 @@ public class serverWindow extends BasicWindow implements SView {
 		
 		//button2 -	Load Server properties - (Sprop)
 		Button Sprop=new Button(shell, SWT.PUSH);
-		Sprop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Sprop.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 2));
 		Sprop.setText("Load server setting");
 		Sprop.addSelectionListener(new SelectionListener() {
 			@Override
@@ -193,7 +193,7 @@ public class serverWindow extends BasicWindow implements SView {
 		});
 		//button3 - Load Game properties - (Gprop)
 		Button Gprop=new Button(shell, SWT.PUSH);
-		Gprop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Gprop.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 2));
 		Gprop.setText("Load game setting");
 		Gprop.addSelectionListener(new SelectionListener() {
 			@Override
@@ -222,7 +222,7 @@ public class serverWindow extends BasicWindow implements SView {
 		
 		//button4 - Stop Server
 		Button Stop=new Button(shell, SWT.PUSH);
-		Stop.setLayoutData(new GridData(SWT.RIGHT, SWT.None, false, false, 1, 1));
+		Stop.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 2));
 		Stop.setText("Stop the server");
 		Stop.addSelectionListener(new SelectionListener() {
 			@Override
@@ -303,7 +303,9 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void update(ArrayList<MyClient> arrayList) {
-		//CList.removeAll();
+		System.out.println("topindex "+CList.getTopIndex());
+		if(CList.getTopIndex()!=0)
+			CList.removeAll();
 		for(int i=0;i<arrayList.size();i++)
 			CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t" + arrayList.get(i).getTimeConnected());
 	}

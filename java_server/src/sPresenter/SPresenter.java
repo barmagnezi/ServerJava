@@ -53,7 +53,6 @@ public class SPresenter implements Observer{
 			theDir.mkdirs();
 			Mproperties = new SPropertiesModel(null);}		
 		//model.setProperties(Mproperties);
-		view.getDiagsMode(Mproperties.isDiag());
 	}
 	
 	@Override

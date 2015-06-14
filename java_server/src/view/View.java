@@ -48,5 +48,5 @@ public interface View {
 	 * set in the view the diags Mode
 	 * @param diag
 	 */
-	void getDiagsMode(boolean diag);
+	void sendDiagsMode(boolean diag);
 }

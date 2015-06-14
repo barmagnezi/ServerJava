@@ -33,11 +33,11 @@ public class MazeServer extends Observable implements SModel{
 	static int clientNum=0;
 	int dely;
 	ServerSocket myServer;
-	ClientHandler ch;
+	MazeClientHandler ch;
 	ExecutorService executor;
 	Socket someClient;
 	
-	public MazeServer(ClientHandler ch,int port, int Dely,int numOfClients){
+	public MazeServer(MazeClientHandler ch,int port, int Dely,int numOfClients){
 		this.ch=ch;
 		run=true;
 		this.port=port;
@@ -64,7 +64,7 @@ public class MazeServer extends Observable implements SModel{
 							clientNum++;
 							System.out.println("Client "+clientNum+" CONNECTED");
 							OffLineModel m=new OffLineModel();
-							ch.CreateNewClientHandler().HandleClient(someClient.getInputStream(), someClient.getOutputStream());
+							ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream(),m);
 							someClient.getInputStream().close();
 							someClient.getOutputStream().close();
 							someClient.close();
@@ -196,10 +196,15 @@ public class MazeServer extends Observable implements SModel{
 		System.out.println("KILL");
 	}
 
-	@Override
+
 	public Object getUsers(String arg) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void stop() {
+		
 	}
 
 

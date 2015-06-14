@@ -32,16 +32,18 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	Queue<Command> commandsList;
 	
 
-	@Override
-	public void HandleClient(InputStream input, OutputStream outputStream) {
+	public void HandleClient(InputStream input,OutputStream outputStream, OffLineModel m){
 		writer = new PrintStream(outputStream);		
 		reader=new BufferedReader(new InputStreamReader(input));
 		commandsList= new LinkedList<Command>();
-		OffLineModel m=new OffLineModel();
 		Presenter p=new Presenter(this, m);
 		this.addObserver(p);
 		m.addObserver(p);
 		start();
+	}
+	
+	@Override
+	public void HandleClient(InputStream input, OutputStream outputStream) {
 	}
 
 	@Override
@@ -109,8 +111,13 @@ public class MazeClientHandler extends Observable implements ClientHandler,View 
 	}
 
 	@Override
-	public void getDiagsMode(boolean diag) {
-
+	public void sendDiagsMode(boolean diag) {
+		writer.println("sentDiagsMode");
+		if(diag)
+			writer.println("true");
+		else
+			writer.println("false");
+		writer.flush();
 	}
 	
 	@Override

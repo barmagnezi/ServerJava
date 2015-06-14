@@ -51,7 +51,7 @@ public class Presenter implements Observer{
 			theDir.mkdirs();
 			Mproperties = new PropertiesModel(null);}		
 		model.setProperties(Mproperties);
-		view.getDiagsMode(Mproperties.isDiag());
+		view.sendDiagsMode(Mproperties.isDiag());
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class Presenter implements Observer{
 		commands.put("help", new helpCommand());
 		commands.put("setNewProperties", new setPropertiesCommand());
 		commands.put("GetClue", new clueCommand());
-		commands.put("TheDiagsModeIs",new setDiagsCommand());
+		commands.put("TheDiagsModeIs",new sendDiagsCommand());
 		//commands.put("checkMotion", new checkMotionCommand());
 	}
 	//commands
@@ -193,12 +193,12 @@ public class Presenter implements Observer{
 		}
 		
 	}
-	public class setDiagsCommand  implements Command {
+	public class sendDiagsCommand  implements Command {
 		@Override
 		public void doCommand(String arg,PrintStream out) {
 			if(arg.equals("true"))
-				model.setDiags(true);
-			model.setDiags(false);
+				view.sendDiagsMode(true);
+			view.sendDiagsMode(false);
 		}
 	}
 

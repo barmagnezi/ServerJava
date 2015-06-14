@@ -40,7 +40,7 @@ public class SPresenter implements Observer{
 		addAllCommands();
 		view.setCommands(commands);
 		//model.setCommands(commands);	//Only for sending an update when a client connects/disconnects.	-	changed to send "update" throw the notify.
-		setNewProperties("resources/properties.xml");
+		setNewProperties("resources/serverProperties.xml");
 	}
 	public void setNewProperties(String path){
 		InputStream from = null;

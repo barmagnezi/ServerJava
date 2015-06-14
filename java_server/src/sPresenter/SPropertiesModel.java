@@ -4,11 +4,6 @@ import java.beans.XMLDecoder;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import algorithms.mazeGenerators.DFSMazeGenerator;
-import algorithms.mazeGenerators.MazeGenerator;
-import algorithms.search.aStar.Heuristic;
-import algorithms.search.aStar.MazeManhhetenDistance;
-
 /**
 * The PropertiesModel is a class holding the variables needed for our model.
 * @author  Bar Magnezi and Senia Kalma
@@ -43,9 +38,9 @@ public class SPropertiesModel implements Serializable {
 			this.copyConstructor((SPropertiesModel) XML.readObject());
 			XML.close();
 		}catch(Exception e ){
-			System.out.println("no found properties//run default values\n"
-					+ "after exit command the properties save in resources/properties.xml");
-			this.setPort(5400);
+			System.out.println("\n***	Not found server properties file - runing on default values		***\n"
+					+ "after exit command the properties will save in resources/serverProperties.xml");
+			this.setPort(5401);
 			this.setAllowedClients(5);
 			this.setDely(5000000);
 		}

@@ -2,11 +2,8 @@ package sView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import sModel.MyClient;
 import View.Command;
-import algorithms.mazeGenerators.Maze;
-import algorithms.search.Solution;
 
 /**
 * View interface.

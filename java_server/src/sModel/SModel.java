@@ -1,13 +1,7 @@
 package sModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import presenter.PropertiesModel;
 import sPresenter.SPropertiesModel;
-import View.Command;
-import algorithms.mazeGenerators.Maze;
-import algorithms.search.Solution;
 
 /**
 * Model interface.

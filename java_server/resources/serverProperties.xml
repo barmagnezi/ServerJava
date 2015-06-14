@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_45" class="java.beans.XMLDecoder">
+ <object class="sPresenter.SPropertiesModel" id="SPropertiesModel0">
+  <void class="sPresenter.SPropertiesModel" method="getField">
+   <string>AllowedClients</string>
+   <void method="set">
+    <object idref="SPropertiesModel0"/>
+    <int>5</int>
+   </void>
+  </void>
+  <void class="sPresenter.SPropertiesModel" method="getField">
+   <string>port</string>
+   <void method="set">
+    <object idref="SPropertiesModel0"/>
+    <int>5401</int>
+   </void>
+  </void>
+  <void class="sPresenter.SPropertiesModel" method="getField">
+   <string>dely</string>
+   <void method="set">
+    <object idref="SPropertiesModel0"/>
+    <int>5000000</int>
+   </void>
+  </void>
+ </object>
+</java>

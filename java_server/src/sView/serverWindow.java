@@ -3,7 +3,6 @@ package sView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Observer;
 import java.util.Queue;
 
 import org.eclipse.swt.SWT;
@@ -11,20 +10,17 @@ import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
@@ -32,10 +28,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 import View.Command;
-import algorithms.mazeGenerators.Maze;
-import algorithms.search.Solution;
 import sModel.MyClient;
-import view.View;
 
 /**
 * Server Main window, setting the default buttons and the main gameView widget.
@@ -87,12 +80,7 @@ public class serverWindow extends BasicWindow implements SView {
 		TIP.setBackground(new Color(null, new RGB(255, 255, 255)));
 		TIP.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 2, 1));
 		TIP.setEnabled(false);
-		
-		//TIP.setText(myServer.getPort());
-		commandsList.add(commands.get("getIP"));
-		this.setChanged();
-		this.notifyObservers("nothing");
-		
+
 		//Label2 - Port
 		Label Sport = new Label(shell, SWT.NONE);
 		Sport.setText("Current Server Port: ");
@@ -101,9 +89,12 @@ public class serverWindow extends BasicWindow implements SView {
 		//Text2 - Current Port
 		TPort = new Text(shell, SWT.BORDER);
 		TPort.setBackground(new Color(null, new RGB(255, 255, 255)));
-		TPort.setLayoutData(new GridData(SWT.None, SWT.None, false, false, 1, 1));
 		//TIP.setText(myServer.getPort());
 		
+		//Updating IP and Port by the data in the model
+		commandsList.add(commands.get("getIP"));
+		this.setChanged();
+		this.notifyObservers("nothing");
 		commandsList.add(commands.get("getPort"));
 		this.setChanged();
 		this.notifyObservers("nothing");
@@ -158,7 +149,7 @@ public class serverWindow extends BasicWindow implements SView {
 		});
 		//List for Clients -	<IP>   <PORT>   <TIME>
 		CList = new List(shell, SWT.SINGLE | SWT.BORDER);
-		CList.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 3, 3));
+		CList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3));
 		CList.setBackground(new Color(null, new RGB(255, 255, 255)));
 		
 		shell.addHelpListener(new HelpListener() {
@@ -172,9 +163,66 @@ public class serverWindow extends BasicWindow implements SView {
 			}
 		});
 		
-		//button2 - Stop Server
+		//button2 -	Load Server properties - (Sprop)
+		Button Sprop=new Button(shell, SWT.PUSH);
+		Sprop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Sprop.setText("Load server setting");
+		Sprop.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+  						FileDialog fd=new FileDialog(shell,SWT.OPEN);
+  						fd.setText("open");
+  						fd.setFilterPath("");
+  					  String[] names = {
+  					      "Extensible Markup Language (*.xml)"};
+  						String[] filterExt = { "*.xml"};
+  						fd.setFilterNames(names);
+  						fd.setFilterExtensions(filterExt);
+  						fd.open();
+  						if(fd.getFileName()=="")
+  							return;
+  						//setProperties(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
+					}
+				});
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
+		//button3 - Load Game properties - (Gprop)
+		Button Gprop=new Button(shell, SWT.PUSH);
+		Gprop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Gprop.setText("Load game setting");
+		Gprop.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+  						FileDialog fd=new FileDialog(shell,SWT.OPEN);
+  						fd.setText("open");
+  						fd.setFilterPath("");
+  					  String[] names = {
+  					      "Extensible Markup Language (*.xml)"};
+  						String[] filterExt = { "*.xml"};
+  						fd.setFilterNames(names);
+  						fd.setFilterExtensions(filterExt);
+  						fd.open();
+  						if(fd.getFileName()=="")
+  							return;
+  						//ch.setProperties(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
+					}
+				});
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+		});
+		
+		//button4 - Stop Server
 		Button Stop=new Button(shell, SWT.PUSH);
-		Stop.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
+		Stop.setLayoutData(new GridData(SWT.RIGHT, SWT.None, false, false, 1, 1));
 		Stop.setText("Stop the server");
 		Stop.addSelectionListener(new SelectionListener() {
 			@Override

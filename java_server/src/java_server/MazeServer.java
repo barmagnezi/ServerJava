@@ -6,31 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Inet4Address;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
-import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import View.Command;
-import algorithms.mazeGenerators.Maze;
-import algorithms.search.BFSSearcher;
-import algorithms.search.Solution;
-import algorithms.search.aStar.AstarSearcher;
-import model.Model;
-import model.OffLineModel;
-import presenter.Presenter;
-import presenter.PropertiesModel;
+
 import sModel.MyClient;
 import sModel.SModel;
 import sPresenter.SPropertiesModel;
-//public class MazeServer extends MyServer implements SModel{
 public class MazeServer extends Observable implements SModel{
 	
 	//From old MyServer
@@ -46,20 +33,16 @@ public class MazeServer extends Observable implements SModel{
 	ArrayList<MyClient> Clients;
 	private SPropertiesModel properties;
 	
-	public MazeServer(ClientHandler ch,int port, int Dely,int numOfClients){
+	public MazeServer(ClientHandler ch){
 		this.ch=ch;
-		ch.newProp(path);
+		//ch.newProp("resources/gameProperties.xml");
 		run=true;
-		this.port=port;
-		this.Allowed=numOfClients;
-		this.dely=Dely;
 	}
 	
 	@Override
 	public void start(){
 		System.out.println("Maze server START");
 		System.out.println("<---SERVER side--->");
-		System.out.println("Port is: "+this.port);
 		//this.port=4900;
 		//System.out.println("Def Port is: "+this.port);
 		Clients = new ArrayList<MyClient>();
@@ -77,7 +60,6 @@ public class MazeServer extends Observable implements SModel{
 						try {
 							clientNum++;
 							System.out.println("Client "+clientNum+" CONNECTED");
-							OffLineModel m=new OffLineModel();
 							ch.HandleClient(someClient.getInputStream(), someClient.getOutputStream());
 							someClient.getInputStream().close();
 							someClient.getOutputStream().close();
@@ -100,8 +82,7 @@ public class MazeServer extends Observable implements SModel{
 	}
 	
 	protected void sendUpdate() {
-		this.setChanged();
-		this.notifyObservers("update");
+		sendMsg("update");
 	}
 	protected void sendMsg(String msg) {
 		this.setChanged();
@@ -145,40 +126,22 @@ public class MazeServer extends Observable implements SModel{
 	}
 	
 	//From old MyServer
-	
-	//START
-	/**
-	 * Stops the work and saves the data.
-	 */
-	@Override
-	public void stop() {
-		//close all active users ..
-		for(int i=0;i<Clients.size();i++){
-			try {
-				Clients.get(i).Close();
-			} catch (Exception e) {
-				sendMsg("Error while closing socket of client num "+Clients.get(i).getClientNum());
-			}
-		}
-		Clients.removeAll(Clients);
-		
-		run=false;
-		try {
-			myServer.close();
-		} catch (IOException e) {
-			sendMsg("Error while closing the server");
-			e.printStackTrace();
-		}
-		executor.shutdown();
-	}
-	
 	/**
 	 * Setting the current properties with an inputed PropertiesModel Object.
 	 */
 	public void setProperties(SPropertiesModel prop){
 		properties=(SPropertiesModel) prop;
-		this.port=properties.getPort();
-		this.dely=properties.getDely();
+		System.out.println("Setting Server props");
+		if(prop!=null){
+			this.port=properties.getPort();
+			this.dely=properties.getDely();
+			this.Allowed=properties.getAllowedClients();
+		}
+		else{
+
+			this.setPort(5400);
+			this.setDely(5000000);
+		}
 		executor = Executors.newFixedThreadPool(properties.getAllowedClients());
 	}
 
@@ -210,24 +173,53 @@ public class MazeServer extends Observable implements SModel{
 	public ArrayList<MyClient> getUsers() {
 		return Clients;
 	}
+	/**
+	 * Stops the work and saves the data.
+	 */
+	@Override
+	public void stop() {
+
+		try {
+			myServer.close();
+		} catch (IOException e) {
+			sendMsg("Error while closing the server");
+			e.printStackTrace();
+		}
+		executor.shutdown();
+	}
+	
 	@Override
 	public void killServer() {
-		if(clientNum>0){
-			this.setChanged();
-			this.notifyObservers("Can't close server when some("+clientNum+") are connected");
-		}
-		else{
+		//Close all active users ..
+		for(int i=0;i<Clients.size();i++){
 			try {
-				if(myServer!=null)
-					//if(!someClient.isClosed())
-					//	someClient.close();
-					myServer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				Clients.get(i).Close();
+			} catch (Exception e) {
+				sendMsg("Error while closing socket of client num "+Clients.get(i).getClientNum());
 			}
-			if(executor!=null)
-				executor.shutdown();
 		}
+		Clients.removeAll(Clients);
+		
+		//Closing server
+		run=false;
+		try {
+			if(myServer!=null)
+				myServer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(executor!=null)
+			executor.shutdown();
+		XMLEncoder e = null;
+		try {
+			e = new XMLEncoder(new FileOutputStream("resources/serverProperties.xml"));
+		} catch (FileNotFoundException e1) {
+			this.setChanged();
+			this.notifyObservers("error while saving the properties.");
+		}
+		e.writeObject(this.properties);
+		e.flush();
+		e.close();
 		System.out.println("KILL");
 	}
 

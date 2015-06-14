@@ -14,7 +14,6 @@ public interface SModel {
 	public int GetPort();
 	public void setPort(int port);
 	public ArrayList<MyClient> getUsers();
-	public void killServer();
 	
 	/**
 	 * Sets the server.

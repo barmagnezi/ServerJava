@@ -66,7 +66,8 @@ public class MazeServer extends Observable implements SModel{
 					try {
 						someClient=myServer.accept();
 					} catch (SocketException e) {
-						sendMsg("Error on accept");
+						System.out.println("accept with port close//kill accept");
+						return;
 					}
 
 					Clients.add(new MyClient(someClient, clientNum, new Date()));
@@ -189,7 +190,7 @@ public class MazeServer extends Observable implements SModel{
 		//System.out.println("set Port func in model, port "+port);
 		this.port=port;
 		flagK=true;
-		killServer();
+		stop();
 		run=true;
 		try {
 			if(myServer!=null)
@@ -209,11 +210,6 @@ public class MazeServer extends Observable implements SModel{
 	 */
 	@Override
 	public void stop() {
-	}
-	
-	@Override
-	public void killServer() {
-		flagK=true;
 		//Close all active users ..
 		for(int i=0;i<Clients.size();i++){
 			try {
@@ -224,16 +220,19 @@ public class MazeServer extends Observable implements SModel{
 		}
 		Clients.removeAll(Clients);
 		sendUpdate();
-		//Closing server
-		if(ch!=null)
-			ch.close();
-		run=false;
 		try {
 			if(myServer!=null)
 				myServer.close();
 		} catch (IOException e) {
 			sendMsg("Error closing the server");
 		}
+		if(flagK)
+			return;
+		//Closing server
+		if(ch!=null)
+			ch.close();
+		
+		run=false;
 		//if(executor!=null)
 		//	executor.shutdown();
 		XMLEncoder e = null;

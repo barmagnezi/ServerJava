@@ -94,7 +94,6 @@ public class SPresenter implements Observer{
 		commands.put("getIP", new getIPCommand());
 		commands.put("getPort", new getPortCommand());
 		commands.put("setPort", new setPortCommand());
-		commands.put("killServer", new killServerCommand());
 		//Old
 		commands.put("exit", new exitCommand());
 		commands.put("help", new helpCommand());
@@ -118,12 +117,6 @@ public class SPresenter implements Observer{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
 			model.setPort(Integer.parseInt(arg));
-		}
-	}
-	public class killServerCommand implements Command{
-		@Override
-		public void doCommand(String arg, PrintStream out) {
-			model.killServer();
 		}
 	}
 	

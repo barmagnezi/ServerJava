@@ -240,7 +240,7 @@ public class serverWindow extends BasicWindow implements SView {
 				shell.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						commandsList.add(commands.get("killServer"));
+						commandsList.add(commands.get("exit"));
 						setChanged();
 						notifyObservers("nothing");
 					}

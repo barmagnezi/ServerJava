@@ -35,6 +35,8 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 	PropertiesModel prop=null;
 	@Override
 	public void HandleClient(InputStream input, OutputStream outputStream) {
+		if(prop==null)
+			newProp("//"); //run default prop
 		PrintStream writer=new PrintStream(outputStream);
 		BufferedReader reader=new BufferedReader(new InputStreamReader(input));
 		//////// send to client if he can go in diags

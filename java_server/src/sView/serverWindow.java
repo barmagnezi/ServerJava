@@ -303,7 +303,7 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void update(ArrayList<MyClient> arrayList) {
-		CList.removeAll();
+		//CList.removeAll();
 		for(int i=0;i<arrayList.size();i++)
 			CList.add(arrayList.get(i).getClient() + "\t" + arrayList.get(i).getClientNum() + "\t" + arrayList.get(i).getTimeConnected());
 	}

@@ -192,7 +192,8 @@ public class MazeServer extends Observable implements SModel{
 		killServer();
 		run=true;
 		try {
-			myServer.close();
+			if(myServer!=null)
+				myServer.close();
 		} catch (IOException e) {
 			System.out.println("SEEAAE");
 		}

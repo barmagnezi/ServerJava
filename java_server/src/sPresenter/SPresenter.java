@@ -117,7 +117,6 @@ public class SPresenter implements Observer{
 	public class setPortCommand implements Command{
 		@Override
 		public void doCommand(String arg, PrintStream out) {
-			System.out.println("Presenter, port:"+arg);
 			model.setPort(Integer.parseInt(arg));
 		}
 	}

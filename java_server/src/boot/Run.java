@@ -1,20 +1,9 @@
 package boot;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
-
-import sModel.SModel;
-import model.OffLineModel;
-import sPresenter.SPresenter;
 import sPresenter.SPresenter;
 import sView.serverWindow;
-import java_server.ClientHandlerStub;
-import java_server.MazeClientHandler;
 import java_server.MazeClientHandlerwithoutMVP;
 import java_server.MazeServer;
-
 
 public class Run {
 	public static void main(String[] args) {
@@ -36,6 +25,7 @@ public class Run {
 		v.addObserver(p);
 		m.addObserver(p);
 		v.start();
+		
 		//before
 		/*System.out.println("Enter command\nStart <port-number> <number-of-client>");
 		int port,num;

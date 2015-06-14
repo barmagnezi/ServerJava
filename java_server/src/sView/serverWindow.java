@@ -1,5 +1,8 @@
 package sView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,12 +27,14 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import View.Command;
@@ -255,9 +260,9 @@ public class serverWindow extends BasicWindow implements SView {
 	            messageBox.setMessage("Close the ServerGUI?(Server will still run)");
 	            if(messageBox.open() == SWT.YES){
 	            	arg.doit = true;
-					commandsList.add(commands.get("killServer"));
+					/*commandsList.add(commands.get("killServer"));
 					setChanged();
-					notifyObservers("nothing");
+					notifyObservers("nothing");*/
 	            }else{
 	            	arg.doit = false;
 	            }
@@ -277,12 +282,35 @@ public class serverWindow extends BasicWindow implements SView {
 		this.setChanged();
 		this.notifyObservers("start");
 		run();
+		while(true){
+			System.out.println("The server running...");
+			System.out.print("you want shutdown the server?(y,n)");
+			BufferedReader r=new BufferedReader(new InputStreamReader(System.in));
+			try {
+				if(r.readLine().equals("y")){
+					exit();
+					return;
+				}else{
+					System.out.print("if you want view gui press gui and enter");
+					if(r.readLine().equals("gui")){
+						this.display=new Display();
+						this.shell=new Shell(this.display);
+						run();
+					}
+						
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	public void exit(){
-		shell.dispose();
+		if(!shell.isDisposed())
+			shell.dispose();
 		commandsList.add(commands.get("exit"));
 		this.setChanged();
 		this.notifyObservers("");
+		
 	}
 
 	@Override

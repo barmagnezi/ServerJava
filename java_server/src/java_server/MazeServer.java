@@ -30,7 +30,7 @@ public class MazeServer extends Observable implements SModel{
 	static int clientNum=1;
 	int dely;
 	ServerSocket myServer;
-	MazeClientHandlerwithoutMVP ch;
+	ClientHandler ch;
 	ExecutorService executor;
 	Socket someClient;
 	ArrayList<MyClient> Clients;
@@ -38,9 +38,9 @@ public class MazeServer extends Observable implements SModel{
 	
 	private boolean flagK;
 	
-	public MazeServer(MazeClientHandlerwithoutMVP ch){
+	public MazeServer(ClientHandler ch){
 		this.ch=ch;
-		ch.newProp("resources/serverProperties.xml");
+		ch.newProp("resources/properties.xml");
 		run=true;
 	}
 	

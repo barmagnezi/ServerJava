@@ -2,6 +2,7 @@ package boot;
 
 import sPresenter.SPresenter;
 import sView.serverWindow;
+import java_server.MazeClientHandler;
 import java_server.MazeClientHandlerwithoutMVP;
 import java_server.MazeServer;
 
@@ -17,7 +18,7 @@ public class Run {
 		Scanner in = new Scanner(System.in);
 	    s = in.nextLine();
 	    String[] ServerProp = s.split(" ");*/
-		MazeClientHandlerwithoutMVP ch = new MazeClientHandlerwithoutMVP();
+		MazeClientHandler ch = new MazeClientHandler();
 		MazeServer m=new MazeServer(ch);
 		//View setting
 		serverWindow v = new serverWindow("Server", 600, 600);

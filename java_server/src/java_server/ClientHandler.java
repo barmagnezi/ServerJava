@@ -9,4 +9,6 @@ import model.OffLineModel;
 public interface ClientHandler {
 	
 	public void HandleClient(InputStream input,OutputStream outputStream);
+	public void close();
+	public void newProp(String path);
 }

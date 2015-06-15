@@ -55,6 +55,7 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 			try {
 				String line=reader.readLine();
 				System.out.println(line);
+				System.out.println("bar");
 				String[] commandArg=line.split(" ", 2);
 				if(commandArg[0].equals("generateMaze")){
 					String[] nameIndex= commandArg[1].split(" ");
@@ -95,7 +96,7 @@ public class MazeClientHandlerwithoutMVP implements ClientHandler{
 		}
 	}
 	public void close(){
-		System.out.println("close");
+		System.out.println("offlineModel close");
 		model.stop();
 	}
 }

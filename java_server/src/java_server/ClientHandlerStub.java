@@ -34,5 +34,17 @@ public class ClientHandlerStub implements ClientHandler {
 		}
 	}
 
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void newProp(String path) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

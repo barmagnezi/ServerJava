@@ -32,7 +32,7 @@ public interface Model {
 	/**
 	 * gets the name of an inputed maze name.
 	 * @param name	the name of the solution we want to find it's name.
-	 * @return the name of the solution(string).
+	 * @return The solution.
 	 */
 	public Solution getSolution(String name);
 	/**

@@ -357,8 +357,8 @@ public class serverWindow extends BasicWindow implements SView {
 			    	fD[0].setHeight(10);
 			    	fD[0].setStyle(SWT.BOLD);
 			    	CList.setFont(new Font(display,fD[0]));
-			    	for(int i=0;i<arrayList.size();i++)
-						CList.add("IP: "+arrayList.get(i).getClient().getLocalAddress().toString().substring(1, arrayList.get(i).getClient().getLocalAddress().toString().length())+"   "+"Port: "+arrayList.get(i).getClient().getLocalPort()+"   Local Port: "+ arrayList.get(i).getClient().getPort() +"            Client number: " + arrayList.get(i).getClientNum() + "            " + df.format(arrayList.get(i).getTimeConnected()));
+			    	//for(int i=0;i<arrayList.size();i++)
+					//	CList.add("IP: "+arrayList.get(i).getClient().getLocalAddress().toString().substring(1, arrayList.get(i).getClient().getLocalAddress().toString().length())+"   "+"Port: "+arrayList.get(i).getClient().getLocalPort()+"   Local Port: "+ arrayList.get(i).getClient().getPort() +"            Client number: " + arrayList.get(i).getClientNum() + "            " + df.format(arrayList.get(i).getTimeConnected()));
 		    	}
 		    }
 		});

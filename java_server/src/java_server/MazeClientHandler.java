@@ -19,10 +19,14 @@ import presenter.PropertiesModel;
 
 public class MazeClientHandler implements ClientHandler{
 	
-	Model model=new OffLineModel();
+
+
+	Model model;
 	PropertiesModel prop=null;
 	
-	
+	public MazeClientHandler() {
+		model=new OffLineModel();
+	}
 	
 	
 	public void newProp(String path){
@@ -37,6 +41,7 @@ public class MazeClientHandler implements ClientHandler{
 			Mproperties = new PropertiesModel(null);}		
 		model.setProperties(Mproperties);
 		prop=Mproperties;
+		model.start();
 	}
 	
 	public void close(){

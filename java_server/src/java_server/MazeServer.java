@@ -89,7 +89,7 @@ public class MazeServer extends Observable implements SModel{
 									sendUpdate();
 									clientNum--;
 								} catch (IOException e) {
-									sendMsg("Error handeling a client("+clientNum+")");
+									//sendMsg("Error handeling a client("+clientNum+")");
 								}
 							}
 						});

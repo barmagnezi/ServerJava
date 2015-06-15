@@ -13,10 +13,9 @@ import algorithms.search.State;
 */
 public class StringSolution {
 	public static String SolutionToString(Solution solution){
-		Solution n=new Solution();
-		n.setSol(solution.getSol());
 		String strsol="";
-		Stack<State> sol=n.getSol();
+		Stack<State> sol=new Stack<State>();
+		sol.addAll(solution.getSol());
 		strsol+=sol.size()+"/";
 		while(!sol.isEmpty()){
 			strsol+=sol.pop().getState()+"->";

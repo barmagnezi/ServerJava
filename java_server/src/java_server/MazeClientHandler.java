@@ -97,7 +97,6 @@ public class MazeClientHandler implements ClientHandler{
 					}
 				writer.flush();
 			}
-			
 			if(commandArg[0].equals("GetClue")){
 				String c=model.getClue(commandArg[1]);
 				writer.println("sentClue");

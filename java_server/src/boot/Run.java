@@ -9,7 +9,6 @@ import java_server.MazeServer;
 public class Run {
 	public static void main(String[] args) {
 		//For server side
-		
 		//Add that conatin before
 		//Model setting
 		/*System.out.println("Enter command\nStart <port-number> <number-of-client>");

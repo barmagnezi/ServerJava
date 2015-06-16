@@ -37,8 +37,8 @@ import algorithms.search.aStar.AstarSearcher;
 import algorithms.search.aStar.MazeAirDistance;
 
 /**
-* The MyModel class extends Observable and implements Model.
-* It is the part that makes all the calculations, such as creating a maze, and finding a solution for it.
+* The OffLineModel class extends Observable and implements Model-For making the calculations offline.
+* It is the part that makes all the calculations, such as creating a maze, finding a solution for it, etc.
 * @author  Bar Magnezi and Senia Kalma
 * @version 1.0
 * @since 17.5.2015

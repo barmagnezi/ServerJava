@@ -1,4 +1,4 @@
-package presenter;
+package notUsed;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import presenter.PropertiesModel;
 import View.Command;
 import view.View;
 import model.Model;

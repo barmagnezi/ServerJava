@@ -1,7 +1,5 @@
 package model;
 
-
-
 import java.util.ArrayList;
 
 import algorithms.demo.MazeSearchable;
@@ -9,6 +7,13 @@ import algorithms.mazeGenerators.Cell;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.State;
 
+/**
+* The MazeSearchable class adjusts the maze with a searchable for runing Astar or BFS for finding a solution.
+* Generates a maze with threads.
+* @author  Bar Magnezi and Senia Kalma
+* @version 1.0
+* @since 16.6.2015
+*/
 public class MazeSearchableFixed extends MazeSearchable {
 
 	Maze maze;

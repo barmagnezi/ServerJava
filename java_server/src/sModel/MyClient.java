@@ -1,11 +1,16 @@
 package sModel;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+* Class holding the details of a connected client.
+* @author  Bar Magnezi and Senia Kalma
+* @version 1.0
+* @since 16.6.2015
+*/
 public class MyClient {
 	Socket client;
 	String IP;

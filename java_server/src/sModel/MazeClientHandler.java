@@ -8,27 +8,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-
-import algorithms.compression.HuffmanReader;
-import algorithms.compression.HuffmanWriter;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import model.Model;
 import model.OffLineModel;
 import model.StringMaze;
 import model.StringSolution;
-import presenter.Presenter___onlyformvp.solvemazeCommand;
 import presenter.PropertiesModel;
 
+/**
+* The Maze clientHandler implementing ClientHandler and observer(only for notifying a generated other maze name).
+* Handling client commands and sending them to OfflineModel for calculations.
+* @author  Bar Magnezi and Senia Kalma
+* @version 1.0
+* @since 16.6.2015
+*/
 public class MazeClientHandler implements ClientHandler,Observer{
-	
-
-
 	OffLineModel model;
 	PropertiesModel prop=null;
 	

@@ -1,4 +1,4 @@
-package sModel;
+package notUsed;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import presenter.PropertiesModel;
+import sModel.ClientHandler;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import model.Model;

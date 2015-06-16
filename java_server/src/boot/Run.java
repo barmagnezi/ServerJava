@@ -1,7 +1,6 @@
 package boot;
 
 import sModel.MazeClientHandler;
-import sModel.MazeClientHandlerwithoutMVP;
 import sModel.MazeServer;
 import sPresenter.SPresenter;
 import sView.serverWindow;

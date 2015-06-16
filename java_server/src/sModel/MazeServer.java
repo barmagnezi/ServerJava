@@ -19,8 +19,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import sPresenter.SPropertiesModel;
+
+/**
+* The MazeServer class implementing the (S)Model, for using by the (s)Presenter.
+* @author  Bar Magnezi and Senia Kalma
+* @version 1.0
+* @since 16.6.2015
+*/
 public class MazeServer extends Observable implements SModel{
-	
 	//From old MyServer
 	protected int port;
 	protected boolean run;
@@ -33,7 +39,7 @@ public class MazeServer extends Observable implements SModel{
 	Socket someClient;
 	ArrayList<MyClient> Clients;
 	private SPropertiesModel properties;
-	boolean killed=false;	//16/06/15
+	boolean killed=false;
 	private boolean flagK;
 	
 	public MazeServer(ClientHandler ch){
@@ -42,6 +48,9 @@ public class MazeServer extends Observable implements SModel{
 		run=true;
 	}
 	
+	/**
+	 * Starting the server, accepting a client, and giving the received client to the received ClientHandler.
+	 */
 	@Override
 	public void start(){
 		System.out.println("Maze server START");

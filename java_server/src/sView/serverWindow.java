@@ -41,10 +41,10 @@ import View.Command;
 import sModel.MyClient;
 
 /**
-* Server Main window, setting the default buttons and the main gameView widget.
+* Server main window, setting the buttons and client list.
 * @author  Bar Magnezi and Senia Kalma
 * @version 1.0
-* @since 11.5.2015
+* @since 16.6.2015
 */
 public class serverWindow extends BasicWindow implements SView {
 	HashMap<String, Command> commands;
@@ -300,6 +300,12 @@ public class serverWindow extends BasicWindow implements SView {
 		
 	}	//initWidgets
 	
+	/**
+	* Starting the work and handling options when the GUI closes.
+	* @author  Bar Magnezi and Senia Kalma
+	* @version 1.0
+	* @since 16.6.2015
+	*/
 	public void start(){
 		this.setChanged();
 		this.notifyObservers("start");
@@ -355,19 +361,27 @@ public class serverWindow extends BasicWindow implements SView {
 			    }
 			});
 	}
-
-
+	
+	/**
+	 * Setting the IP, used by the presenter when receiving the IP from the model, in a command called by the serverWindow.(view)
+	 */
 	@Override
 	public void setIP(String ip) {
 		TIP.setText(ip);
 	}
 
+	/**
+	 * Setting the Port, used by the presenter when receiving the IP from the model, in a command called by the serverWindow.(view)
+	 */
 	@Override
 	public void setPort(int port) {
 		String temp=""+port;
 		this.TPort.setText(temp);
 	}
 
+	/**
+	 * Updating the client list with the list received from the model.
+	 */
 	@Override
 	public void update(ArrayList<MyClient> arrayList) {
 		getDisplay();
@@ -401,7 +415,10 @@ public class serverWindow extends BasicWindow implements SView {
 		    }
 		});
 	}
-
+	
+	/**
+	 * Setting the local variable(for indicating if the server is killed), called from the (s)Presenter by a command from the model.
+	 */
 	@Override
 	public void setKilled(boolean k) {
 		isKilled=k;

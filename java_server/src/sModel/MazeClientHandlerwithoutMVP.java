@@ -1,4 +1,4 @@
-package java_server;
+package sModel;
 
 import java.io.BufferedReader;
 import java.io.File;

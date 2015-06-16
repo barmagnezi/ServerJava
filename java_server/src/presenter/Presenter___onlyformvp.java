@@ -19,7 +19,7 @@ import model.Model;
 * @version 1.0
 * @since 17.5.2015
 */
-public class Presenter implements Observer{
+public class Presenter___onlyformvp implements Observer{
 	Model model;
 	View view;
 	HashMap<String, Command> commands;
@@ -31,7 +31,7 @@ public class Presenter implements Observer{
 	 * @param m The Model object.
 	 * @param row The number of rows our maze will have (>2)
 	 */
-	public Presenter(View v, Model m) {
+	public Presenter___onlyformvp(View v, Model m) {
 		model=m;
 		view=v;
 		commands=new HashMap<String, Command>();

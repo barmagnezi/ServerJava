@@ -159,16 +159,21 @@ public class serverWindow extends BasicWindow implements SView {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});*/
+		Label History = new Label(shell, SWT.NONE);
+		History.setText("History of request:");
+		History.setBackground(new Color(null, new RGB(255, 255, 255)));
+		History.setLayoutData(new GridData(SWT.NONE, SWT.NONE, false, false, 2, 1));
+		
 		//List for Clients -	<IP>   <PORT>   <TIME>
-		CList = new List(shell, SWT.SINGLE | SWT.BORDER);
+		CList = new List(shell, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.DOUBLE_BUFFERED);
 		CList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3));
 		CList.setBackground(new Color(null, new RGB(255, 255, 255)));
-		
+		CList.getVerticalBar().setVisible(true);
 		commandsList.add(commands.get("reqUp"));
 		setChanged();
 		notifyObservers("nothing");
 		shell.addHelpListener(new HelpListener() {
-			
+		
 			@Override
 			public void helpRequested(HelpEvent arg0) {
 				MessageBox messageBox = new MessageBox(shell,  SWT.OK);
@@ -315,8 +320,7 @@ public class serverWindow extends BasicWindow implements SView {
 							this.display=new Display();
 							this.shell=new Shell(this.display);
 							run();
-						}
-							
+						}	
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

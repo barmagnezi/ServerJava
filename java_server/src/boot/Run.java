@@ -1,10 +1,10 @@
 package boot;
 
+import sModel.MazeClientHandler;
+import sModel.MazeClientHandlerwithoutMVP;
+import sModel.MazeServer;
 import sPresenter.SPresenter;
 import sView.serverWindow;
-import java_server.MazeClientHandler;
-import java_server.MazeClientHandlerwithoutMVP;
-import java_server.MazeServer;
 
 public class Run {
 	public static void main(String[] args) {

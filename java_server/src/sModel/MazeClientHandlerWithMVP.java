@@ -1,4 +1,4 @@
-package java_server;
+package sModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import model.StringSolution;
 
 import org.hibernate.loader.custom.Return;
 
-import presenter.Presenter;
+import presenter.Presenter___onlyformvp;
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
@@ -36,7 +36,7 @@ public class MazeClientHandlerWithMVP extends Observable implements ClientHandle
 		writer = new PrintStream(outputStream);		
 		reader=new BufferedReader(new InputStreamReader(input));
 		commandsList= new LinkedList<Command>();
-		Presenter p=new Presenter(this, m);
+		Presenter___onlyformvp p=new Presenter___onlyformvp(this, m);
 		this.addObserver(p);
 		m.addObserver(p);
 		start();

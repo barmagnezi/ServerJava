@@ -1,4 +1,4 @@
-package java_server;
+package sModel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,25 +8,36 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
+import algorithms.compression.HuffmanReader;
+import algorithms.compression.HuffmanWriter;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import model.Model;
 import model.OffLineModel;
 import model.StringMaze;
 import model.StringSolution;
+import presenter.Presenter___onlyformvp.solvemazeCommand;
 import presenter.PropertiesModel;
 
-public class MazeClientHandler implements ClientHandler{
+public class MazeClientHandler implements ClientHandler,Observer{
 	
 
 
-	Model model;
+	OffLineModel model;
 	PropertiesModel prop=null;
+	
+	String msgModel;
 	
 	public MazeClientHandler() {
 		//System.out.println("setting client asnasinaesinaes");
 		model=new OffLineModel();
+		model.addObserver(this);
 	}
 	
 	
@@ -54,9 +65,14 @@ public class MazeClientHandler implements ClientHandler{
 	public void HandleClient(InputStream input, OutputStream outputStream) {
 		PrintStream writer=new PrintStream(outputStream);
 		BufferedReader reader=new BufferedReader(new InputStreamReader(input));
+		//for compress the data
+		//PrintWriter writer=new PrintWriter(new ZipOutputStream(outputStream));
+		//BufferedReader reader=new BufferedReader(new InputStreamReader(new ZipInputStream(input)));
+
 		try {
 			String line=reader.readLine();
-			//System.out.println(line);
+			if(line==null)
+				return;
 			String[] commandArg=line.split(" ", 2);
 			
 			//check the command
@@ -65,7 +81,11 @@ public class MazeClientHandler implements ClientHandler{
 				String[] nameIndex= commandArg[1].split(" ");
 				String[] index=nameIndex[1].split(",");
 				model.generateMaze(nameIndex[0], Integer.parseInt(index[0]), Integer.parseInt(index[1]) );
-				writer.println("The maze "+nameIndex[0]+" is ready");
+				if(msgModel!=null){
+					writer.println(msgModel);
+					msgModel=null;
+				}
+				//writer.println("The maze "+nameIndex[0]+" is ready");
 				writer.flush();
 			}
 			
@@ -100,15 +120,23 @@ public class MazeClientHandler implements ClientHandler{
 			}
 			if(commandArg[0].equals("GetClue")){
 				//System.out.println("Get Clue in maze client handler");
-				String c=model.getClue(commandArg[1]);
-				//System.out.println("MazeClientHandler,GetClue,result is:"+c);
-				writer.println("sentClue!"+c);
-				//writer.println(c);
-				writer.flush();
+				if(commandArg[1]==null || commandArg[1].length()!=0){
+					String c=model.getClue(commandArg[1]);
+					//System.out.println("MazeClientHandler,GetClue,result is:"+c);
+					writer.println("sentClue!"+c);
+					//writer.println(c);
+					writer.flush();
+				}
 			}
 			
 		} catch (IOException e) {
 			System.out.println("the client disconnected(cant read from it)");
 		}
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		msgModel=(String) arg;
 	}
 }

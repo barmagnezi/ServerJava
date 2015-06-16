@@ -1,4 +1,4 @@
-package java_server;
+package sModel;
 
 import java.beans.XMLEncoder;
 import java.io.BufferedReader;
@@ -18,8 +18,6 @@ import java.util.Observable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import sModel.MyClient;
-import sModel.SModel;
 import sPresenter.SPropertiesModel;
 public class MazeServer extends Observable implements SModel{
 	

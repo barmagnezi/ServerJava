@@ -6,7 +6,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MazeGenerator;
 
 /**
-* The MazeCallable class implements Callable.
+* The MazeCallable class implements Callable for running in threads.
 * Generates a maze with threads.
 * @author  Bar Magnezi and Senia Kalma
 * @version 1.0
@@ -17,7 +17,6 @@ public class MazeCallable implements Callable<Maze>{
 	int rows;
 	int cols;
 	Maze m;
-	
 	
 	public MazeCallable(MazeGenerator mGenerator, int col, int row) {
 		this.mg=mGenerator;

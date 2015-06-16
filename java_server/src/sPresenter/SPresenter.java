@@ -41,6 +41,7 @@ public class SPresenter implements Observer{
 		view.setCommands(commands);
 		//model.setCommands(commands);	//Only for sending an update when a client connects/disconnects.	-	changed to send "update" throw the notify.
 		setNewProperties("resources/serverProperties.xml");
+		
 	}
 	public void setNewProperties(String path){
 		InputStream from = null;
@@ -54,7 +55,7 @@ public class SPresenter implements Observer{
 			theDir.mkdirs();
 			Mproperties = new SPropertiesModel(null);}		
 		model.setProperties(Mproperties);
-		//view.getDiagsMode(Mproperties.isDiag());
+		view.showPort(Mproperties.port);
 	}
 	
 	@Override
@@ -177,9 +178,7 @@ public class SPresenter implements Observer{
 
 		@Override
 		public void doCommand(String arg, PrintStream out) {
-			model.kill();
 			setNewProperties(arg);
-			model.start();
 		}
 		
 	}

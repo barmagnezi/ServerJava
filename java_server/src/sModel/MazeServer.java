@@ -54,6 +54,7 @@ public class MazeServer extends Observable implements SModel{
 		try {
 			try {
 				this.myServer = new ServerSocket(port);
+				System.out.println("server run on port "+port);
 			} catch (BindException e) {
 				sendMsg("Port is already used, choose another one");
 			}
@@ -163,8 +164,20 @@ public class MazeServer extends Observable implements SModel{
 		else{
 			this.setPort(5400);
 			this.setDely(5000000);
+			this.Allowed=100;
 		}
 		executor = Executors.newFixedThreadPool(properties.getAllowedClients());
+		try {
+			if(myServer!=null){
+				this.myServer.close();
+				this.myServer = new ServerSocket(this.port);
+				System.out.println("server run on port "+port);
+				if(myServer!=null)
+					myServer.setSoTimeout(dely);
+			}
+		} catch (IOException e) {
+			sendMsg("Port is already used, choose another one");
+		}
 	}
 
 	public int getPort() {
@@ -258,6 +271,11 @@ public class MazeServer extends Observable implements SModel{
 	@Override
 	public boolean getKilled() {
 		return killed;
+	}
+
+	@Override
+	public void newModelprop(String arg) {
+		ch.newProp(arg);
 	}
 
 

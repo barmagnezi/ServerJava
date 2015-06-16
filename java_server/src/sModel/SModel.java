@@ -1,6 +1,7 @@
 package sModel;
 
 import java.util.ArrayList;
+
 import sPresenter.SPropertiesModel;
 
 /**
@@ -26,5 +27,5 @@ public interface SModel {
 	public void setProperties(SPropertiesModel mproperties);
 	public void kill();
 	public boolean getKilled();
-	public void newModelprop();
+	public void newModelprop(String arg);
 }

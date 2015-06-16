@@ -43,5 +43,7 @@ public interface SView {
 	 */
 	void displayString(String msg);
 
-	void getDiagsMode(boolean diag);
+	void showPort(int port);
+
+	
 }

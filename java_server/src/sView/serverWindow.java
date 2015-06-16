@@ -205,6 +205,8 @@ public class serverWindow extends BasicWindow implements SView {
   						if(fd.getFileName()=="")
   							return;
   						commandsList.add(commands.get("setNewProperties"));
+  						System.out.println(fd.getFilterPath()+"/"+fd.getFileName());
+  						setChanged();
   						notifyObservers(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
 					}
 				});
@@ -354,10 +356,6 @@ public class serverWindow extends BasicWindow implements SView {
 			});
 	}
 
-	@Override
-	public void getDiagsMode(boolean diag) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void setIP(String ip) {
@@ -407,6 +405,12 @@ public class serverWindow extends BasicWindow implements SView {
 	@Override
 	public void setKilled(boolean k) {
 		isKilled=k;
+	}
+
+	@Override
+	public void showPort(int port) {
+		if(TPort!=null)
+			TPort.setText(""+port);
 	}
 
 	/*@Override		//OLD, BEFORE ARRAYLIST<MYCLIENTS>

@@ -16,5 +16,4 @@ public class Run {
 		m.addObserver(p);
 		v.start();
 	}
-
 }

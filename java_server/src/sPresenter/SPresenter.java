@@ -7,12 +7,9 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-
 import View.Command;
 import sModel.SModel;
 import sView.SView;
-import view.View;
-import model.Model;
 
 /**
 * The Presenter class implements Observer.

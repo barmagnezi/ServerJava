@@ -260,4 +260,5 @@ public class MazeServer extends Observable implements SModel{
 		return killed;
 	}
 
+
 }		//MazeServer class close.

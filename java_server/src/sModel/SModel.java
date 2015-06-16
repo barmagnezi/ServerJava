@@ -26,4 +26,5 @@ public interface SModel {
 	public void setProperties(SPropertiesModel mproperties);
 	public void kill();
 	public boolean getKilled();
+	public void newModelprop();
 }

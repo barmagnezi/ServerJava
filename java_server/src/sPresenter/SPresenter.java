@@ -101,6 +101,7 @@ public class SPresenter implements Observer{
 		commands.put("exit", new exitCommand());
 		commands.put("help", new helpCommand());
 		commands.put("setNewProperties", new setPropertiesCommand());
+		commands.put("newModelprop", new newModelpropCommand());
 	}
 	
 	//commands
@@ -149,6 +150,12 @@ public class SPresenter implements Observer{
 			//close all we need
 		}
 	}
+	public class newModelpropCommand  implements Command {
+		@Override
+		public void doCommand(String arg,PrintStream out) {
+			model.newModelprop(arg);
+		}
+	}
 	public class helpCommand  implements Command {
 		@Override
 		public void doCommand(String arg,PrintStream out) {
@@ -170,7 +177,9 @@ public class SPresenter implements Observer{
 
 		@Override
 		public void doCommand(String arg, PrintStream out) {
+			model.kill();
 			setNewProperties(arg);
+			model.start();
 		}
 		
 	}

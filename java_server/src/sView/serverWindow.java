@@ -204,7 +204,8 @@ public class serverWindow extends BasicWindow implements SView {
   						fd.open();
   						if(fd.getFileName()=="")
   							return;
-  						//setProperties(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
+  						commandsList.add(commands.get("setNewProperties"));
+  						notifyObservers(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
 					}
 				});
 			}
@@ -232,7 +233,10 @@ public class serverWindow extends BasicWindow implements SView {
   						fd.open();
   						if(fd.getFileName()=="")
   							return;
-  						//ch.setProperties(fd.getFilterPath()+"/"+fd.getFileName());		//Need to complete
+  						setChanged();
+  						commandsList.add(commands.get("newModelprop"));
+						setChanged();
+  						notifyObservers(fd.getFilterPath()+"/"+fd.getFileName());
 					}
 				});
 			}

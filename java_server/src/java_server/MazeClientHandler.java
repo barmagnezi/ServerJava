@@ -25,6 +25,7 @@ public class MazeClientHandler implements ClientHandler{
 	PropertiesModel prop=null;
 	
 	public MazeClientHandler() {
+		//System.out.println("setting client asnasinaesinaes");
 		model=new OffLineModel();
 	}
 	
@@ -45,7 +46,7 @@ public class MazeClientHandler implements ClientHandler{
 	}
 	
 	public void close(){
-		System.out.println("offlineModel close");
+		System.out.println("offlineModel closed");
 		model.stop();
 	}
 
@@ -55,7 +56,7 @@ public class MazeClientHandler implements ClientHandler{
 		BufferedReader reader=new BufferedReader(new InputStreamReader(input));
 		try {
 			String line=reader.readLine();
-			System.out.println(line);
+			//System.out.println(line);
 			String[] commandArg=line.split(" ", 2);
 			
 			//check the command
@@ -69,13 +70,13 @@ public class MazeClientHandler implements ClientHandler{
 			}
 			
 			if(commandArg[0].equals("getMaze")){
-				System.out.println("send maze:"+commandArg[1]);
+				//System.out.println("send maze:"+commandArg[1]);
 				Maze m=model.getMaze(commandArg[1]);
-				writer.println("sentMaze");
+				//writer.println("sentMaze");
 				if(m==null)
-					writer.println("mazeNotFound");
+					writer.println("sentMaze!"+"mazeNotFound");
 				else
-					writer.println(StringMaze.MazeToString(m));
+					writer.println("sentMaze!"+StringMaze.MazeToString(m));
 				writer.flush();
 			}
 			
@@ -87,20 +88,22 @@ public class MazeClientHandler implements ClientHandler{
 			
 			if(commandArg[0].equals("getSolution")){
 				Solution s=model.getSolution(commandArg[1]);
-				writer.println("sentSolution");
+				//writer.println("sentSolution");
 				if(s==null)
-					writer.println("solutionNotFound");
+					writer.println("sentSolution!"+"solutionNotFound");
 				else{
 					String sol=StringSolution.SolutionToString(s);
-					System.out.println("The sol that sent is:"+sol);
-					writer.println(sol);
+					//System.out.println("The sol that sent is:"+sol);
+					writer.println("sentSolution!"+sol);
 					}
 				writer.flush();
 			}
 			if(commandArg[0].equals("GetClue")){
+				//System.out.println("Get Clue in maze client handler");
 				String c=model.getClue(commandArg[1]);
-				writer.println("sentClue");
-				writer.println(c);
+				//System.out.println("MazeClientHandler,GetClue,result is:"+c);
+				writer.println("sentClue!"+c);
+				//writer.println(c);
 				writer.flush();
 			}
 			

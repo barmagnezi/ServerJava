@@ -55,6 +55,8 @@ public class serverWindow extends BasicWindow implements SView {
 	Text TPort;
 	List CList;
 	
+	boolean isKilled;
+	
 	public serverWindow(String title, int width, int height) {
 		super(title, width, height);
 		this.width=width;
@@ -75,7 +77,6 @@ public class serverWindow extends BasicWindow implements SView {
 	@Override
 	protected void initWidgets() {
 		shell.setLayout(new GridLayout(3,false));
-		System.out.println("VIEW INITWIDGETS");
 		
 		Image image = new Image(null,"resources/images/Servbackground.png");
 		shell.setBackgroundImage(new Image(null, image.getImageData().scaledTo(this.width,this.height)));
@@ -99,6 +100,7 @@ public class serverWindow extends BasicWindow implements SView {
 		//Text2 - Current Port
 		TPort = new Text(shell, SWT.BORDER);
 		TPort.setBackground(new Color(null, new RGB(255, 255, 255)));
+		TPort.setEnabled(false);
 		//TIP.setText(myServer.getPort());
 		
 		//Updating IP and Port by the data in the model
@@ -130,7 +132,7 @@ public class serverWindow extends BasicWindow implements SView {
 		});*/
 		
 		//button1 - Save port
-		Button BNewMaze=new Button(shell, SWT.PUSH);
+		/*Button BNewMaze=new Button(shell, SWT.PUSH);
 		BNewMaze.setLayoutData(new GridData(SWT.LEFT, SWT.None, false, false, 1, 1));
 		BNewMaze.setText("Save port");
 		BNewMaze.addSelectionListener(new SelectionListener() {
@@ -156,12 +158,15 @@ public class serverWindow extends BasicWindow implements SView {
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
-		});
+		});*/
 		//List for Clients -	<IP>   <PORT>   <TIME>
 		CList = new List(shell, SWT.SINGLE | SWT.BORDER);
 		CList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3));
 		CList.setBackground(new Color(null, new RGB(255, 255, 255)));
 		
+		commandsList.add(commands.get("reqUp"));
+		setChanged();
+		notifyObservers("nothing");
 		shell.addHelpListener(new HelpListener() {
 			
 			@Override
@@ -240,7 +245,7 @@ public class serverWindow extends BasicWindow implements SView {
 				shell.getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						commandsList.add(commands.get("exit"));
+						commandsList.add(commands.get("kill"));
 						setChanged();
 						notifyObservers("nothing");
 					}
@@ -257,7 +262,13 @@ public class serverWindow extends BasicWindow implements SView {
 	            int style = SWT.APPLICATION_MODAL | SWT.YES | SWT.NO;
 	            MessageBox messageBox = new MessageBox(shell, style);
 	            messageBox.setText("Exit");
-	            messageBox.setMessage("Close the ServerGUI?(Server will still run)");
+	            commandsList.add(commands.get("isKilled"));
+				setChanged();
+				notifyObservers("");
+				if(isKilled==false)
+					messageBox.setMessage("Close the ServerGUI?(Server will still run)");
+				else
+					messageBox.setMessage("Close the GUI?");
 	            if(messageBox.open() == SWT.YES){
 	            	arg.doit = true;
 					/*commandsList.add(commands.get("killServer"));
@@ -283,24 +294,33 @@ public class serverWindow extends BasicWindow implements SView {
 		this.notifyObservers("start");
 		run();
 		while(true){
-			System.out.println("The server running...");
-			System.out.print("you want shutdown the server?(y,n)");
-			BufferedReader r=new BufferedReader(new InputStreamReader(System.in));
-			try {
-				if(r.readLine().equals("y")){
-					exit();
-					return;
-				}else{
-					System.out.print("if you want view gui press gui and enter");
-					if(r.readLine().equals("gui")){
-						this.display=new Display();
-						this.shell=new Shell(this.display);
-						run();
+			commandsList.add(commands.get("isKilled"));
+			this.setChanged();
+			this.notifyObservers("");
+			if(isKilled==false){
+				System.out.println("The server is still running...");
+				System.out.print("Do you want to shutdown the server?(y/n)\n");
+				BufferedReader r=new BufferedReader(new InputStreamReader(System.in));
+				try {
+					if(r.readLine().equals("y")){
+						commandsList.add(commands.get("kill"));
+						commandsList.add(commands.get("exit"));
+						this.setChanged();
+						this.notifyObservers("");
+						r.close();
+						return;
+					}else{
+						System.out.print("if you want open the GUI\n Type GUI and press enter\n");
+						if(r.readLine().equalsIgnoreCase("GUI")){
+							this.display=new Display();
+							this.shell=new Shell(this.display);
+							run();
+						}
+							
 					}
-						
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -310,12 +330,13 @@ public class serverWindow extends BasicWindow implements SView {
 		commandsList.add(commands.get("exit"));
 		this.setChanged();
 		this.notifyObservers("");
-		
 	}
 
 	@Override
 	public void displayString(String msg) {
-		getDisplay().getDefault().asyncExec(new Runnable() {
+		getDisplay();
+		Display.getDefault().asyncExec(new Runnable() {
+		//getDisplay().getDefault().asyncExec(new Runnable() {		//Was just this line(without 2 above)
 		    public void run() {
 				MessageBox messageBox = new MessageBox(shell,  SWT.OK);
 				messageBox.setMessage(msg);
@@ -343,11 +364,11 @@ public class serverWindow extends BasicWindow implements SView {
 
 	@Override
 	public void update(ArrayList<MyClient> arrayList) {
-		getDisplay().getDefault().asyncExec(new Runnable() {
+		getDisplay();
+		Display.getDefault().asyncExec(new Runnable() {
 		    public void run() {
 		    	if(CList!=null){
 			    	CList.removeAll();
-			    	DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 			    	//System.out.println(arrayList.get(0).getClient().getPort());					//	8327 - Technical port
 			    	//System.out.println(arrayList.get(0).getClient().getLocalPort());				//	5401 - Port(for connection)
 			    	//System.out.println(arrayList.get(0).getClient().getRemoteSocketAddress());	//	/127.0.0.1:8327
@@ -357,11 +378,27 @@ public class serverWindow extends BasicWindow implements SView {
 			    	fD[0].setHeight(10);
 			    	fD[0].setStyle(SWT.BOLD);
 			    	CList.setFont(new Font(display,fD[0]));
-			    	//for(int i=0;i<arrayList.size();i++)
-					//	CList.add("IP: "+arrayList.get(i).getClient().getLocalAddress().toString().substring(1, arrayList.get(i).getClient().getLocalAddress().toString().length())+"   "+"Port: "+arrayList.get(i).getClient().getLocalPort()+"   Local Port: "+ arrayList.get(i).getClient().getPort() +"            Client number: " + arrayList.get(i).getClientNum() + "            " + df.format(arrayList.get(i).getTimeConnected()));
+			    	boolean flag;
+			    	for(int i=0;i<arrayList.size();i++){
+			    		flag=true;
+			    		/*for(int j=0;j<arrayList.size();j++){
+			    			if(arrayList.get(i).getClientNum()==arrayList.get(j).getClientNum())
+			    				flag=false;
+			    		}*/
+			    		if(flag==true)
+			    			if(arrayList.get(i).getClientNum()!=-1)
+			    				CList.add("IP: "+arrayList.get(i).getIP()+"   "+"Port: "+arrayList.get(i).getPort()+"   Local Port: "+ arrayList.get(i).getLocalPort() +"       Client request: " + arrayList.get(i).getClientNum() + "       " + arrayList.get(i).getTimeConnected());
+			    			else
+			    				CList.add("                                                         SERVER IS DOWN");
+			    	}
 		    	}
 		    }
 		});
+	}
+
+	@Override
+	public void setKilled(boolean k) {
+		isKilled=k;
 	}
 
 	/*@Override		//OLD, BEFORE ARRAYLIST<MYCLIENTS>

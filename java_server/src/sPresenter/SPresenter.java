@@ -94,6 +94,9 @@ public class SPresenter implements Observer{
 		commands.put("getIP", new getIPCommand());
 		commands.put("getPort", new getPortCommand());
 		commands.put("setPort", new setPortCommand());
+		commands.put("isKilled", new getKilledCommand());
+		commands.put("reqUp", new reqUpCommand());
+		commands.put("kill", new killCommand());
 		//Old
 		commands.put("exit", new exitCommand());
 		commands.put("help", new helpCommand());
@@ -119,12 +122,30 @@ public class SPresenter implements Observer{
 			model.setPort(Integer.parseInt(arg));
 		}
 	}
-	
+	public class reqUpCommand implements Command{
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			model.getUsers();
+		}
+	}
+	public class getKilledCommand implements Command{
+		@Override
+		public void doCommand(String arg, PrintStream out) {
+			view.setKilled((model.getKilled()));
+		}
+	}
 	public class exitCommand  implements Command {
 		@Override
 		public void doCommand(String arg,PrintStream out) {
+			model.kill();
+		}
+	}
+	
+	public class killCommand  implements Command {
+		@Override
+		public void doCommand(String arg,PrintStream out) {
 			System.out.println("exit");
-			model.stop();
+			model.kill();
 			//close all we need
 		}
 	}

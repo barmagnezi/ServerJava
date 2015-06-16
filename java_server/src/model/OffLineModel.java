@@ -324,6 +324,7 @@ public class OffLineModel extends Observable implements Model {
 	@Override
 	public String getClue(String arg) {
 		//System.out.println(arg);
+		//System.out.println("starting to calc clue");
 		String[] nameIndex=arg.split(" ");
 		Maze maze=nameMaze.get(nameIndex[0]);
 		String[] rowCol = nameIndex[1].split(",");
@@ -340,6 +341,7 @@ public class OffLineModel extends Observable implements Model {
 		String[] nxt =last[1].split("x");
 		int Cluecol=Integer.parseInt(nxt[0]);
 		int Cluerow=Integer.parseInt(nxt[1]);
+		//System.out.println("Finished calcin clue, in Offline model,result: "+Cluecol+Cluerow);
 		//System.out.println(Cluerow+","+Cluecol);
 		return Cluerow+","+Cluecol;
 	}

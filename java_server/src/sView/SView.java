@@ -17,6 +17,7 @@ public interface SView {
 
 	void setPort(int port);
 
+	void setKilled(boolean k);
 	void update(ArrayList<MyClient> arrayList);
 
 	/**

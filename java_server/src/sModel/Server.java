@@ -273,7 +273,7 @@ public class Server extends Observable implements SModel{
 		} catch (IOException e) {
 			sendMsg("Error closing the server");
 		}
-		
+		executor.shutdown();
 		System.out.println("Server is killed");
 	}
 

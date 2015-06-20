@@ -26,7 +26,7 @@ import sPresenter.SPropertiesModel;
 * @version 1.0
 * @since 16.6.2015
 */
-public class MazeServer extends Observable implements SModel{
+public class Server extends Observable implements SModel{
 	//From old MyServer
 	protected int port;
 	protected boolean run;
@@ -42,7 +42,7 @@ public class MazeServer extends Observable implements SModel{
 	boolean killed=false;
 	private boolean flagK;
 	
-	public MazeServer(ClientHandler ch){
+	public Server(ClientHandler ch){
 		this.ch=ch;
 		ch.newProp("resources/properties.xml");
 		run=true;

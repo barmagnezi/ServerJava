@@ -110,7 +110,7 @@ public class MazeClientHandler implements ClientHandler,Observer{
 					writer.println("sentSolution!"+"solutionNotFound");
 				else{
 					String sol=StringSolution.SolutionToString(s);
-					System.out.println("The sol that sent is:"+sol);
+					//System.out.println("The sol that sent is:"+sol);
 					writer.println("sentSolution!"+sol);
 					}
 				writer.flush();

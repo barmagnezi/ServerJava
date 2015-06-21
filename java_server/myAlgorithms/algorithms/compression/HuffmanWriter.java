@@ -1,21 +1,9 @@
 package algorithms.compression;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.Writer;
-import java.nio.charset.Charset;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
 
 /**

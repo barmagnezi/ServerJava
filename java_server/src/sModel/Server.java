@@ -93,7 +93,6 @@ public class Server extends Observable implements SModel{
 									clientNum--;
 									sendUpdate();
 								} catch (IOException e) {
-									
 								}
 							}
 						});

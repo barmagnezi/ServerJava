@@ -62,7 +62,8 @@ public class MazeClientHandler implements ClientHandler,Observer{
 	public void HandleClient(InputStream input, OutputStream outputStream) {
 		PrintStream writer=new PrintStream(outputStream);
 		BufferedReader reader=new BufferedReader(new InputStreamReader(input));
-		//for compress the data
+		//f
+
 		//PrintWriter writer=new PrintWriter(new ZipOutputStream(outputStream));
 		//BufferedReader reader=new BufferedReader(new InputStreamReader(new ZipInputStream(input)));
 

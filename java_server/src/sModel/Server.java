@@ -57,14 +57,12 @@ public class Server extends Observable implements SModel{
 		System.out.println("<---SERVER side--->");
 		Clients = new ArrayList<MyClient>();
 		sendUpdate();
-		//
 		try {
 			try {
 				this.myServer = new ServerSocket(port);
 				System.out.println("server run on port "+port);
 			} catch (BindException e) {
-				sendMsg("Port is already used, choose another one");
-			}
+				sendMsg("Port is already used, choose another one");}
 			if(myServer!=null)
 				myServer.setSoTimeout(dely);
 			executor = Executors.newFixedThreadPool(Allowed);
@@ -74,9 +72,7 @@ public class Server extends Observable implements SModel{
 						someClient=myServer.accept();
 					} catch (SocketException e) {
 						System.out.println("accept with port close//kill accept");
-						return;
-					}
-
+						return;}
 					Clients.add(new MyClient(someClient, clientNum, new Date()));
 					sendUpdate();
 					if(executor!=null){

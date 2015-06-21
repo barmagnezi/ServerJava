@@ -203,7 +203,7 @@ public class OffLineModel extends Observable implements Model {
 			AnnotationConfiguration config = new AnnotationConfiguration();
 			config.addAnnotatedClass(HibernateClass.class);
 			config.configure();
-			//new SchemaExport(config).create(true, true);
+			//	new SchemaExport(config).create(true, true);					//<========== IF HIBERNATE ERROR OCCURS
 			this.factory = config.buildSessionFactory();
 			readHashmapsFromHIB();
 		}

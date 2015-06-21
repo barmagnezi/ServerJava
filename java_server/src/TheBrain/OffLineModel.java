@@ -140,6 +140,7 @@ public class OffLineModel extends Observable implements Model {
 			} catch (InterruptedException e) {
 				this.setChanged();
 				this.notifyObservers("error while creating a solution.");
+				System.out.println();
 			} catch (ExecutionException e) {
 				this.setChanged();
 				this.notifyObservers("error while creating a solution.");
@@ -330,8 +331,9 @@ public class OffLineModel extends Observable implements Model {
 		int row=Integer.parseInt(rowCol[0]);
 		int col=Integer.parseInt(rowCol[1]);
 		Searchable ME=new MazeSearchableFixed(maze, maze.getCell(row, col), maze.getCell(maze.getRows()-1,maze.getCols()-1), properties.isDiag(), 10, 15);
+		Searcher Solver=null;
 		if(properties.getNameSolver().equals("BFS"))
-			this.Solver=new BFSSearcher();
+			Solver=new BFSSearcher();
 		else
 			Solver=new AstarSearcher(new MazeAirDistance());
 		Solution Sol = Solver.search(ME);

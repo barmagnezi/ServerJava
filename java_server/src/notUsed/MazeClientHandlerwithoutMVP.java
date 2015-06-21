@@ -9,14 +9,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import presenter.PropertiesModel;
 import sModel.ClientHandler;
+import TheBrain.Model;
+import TheBrain.OffLineModel;
+import TheBrain.PropertiesModel;
+import TheBrain.StringMaze;
+import TheBrain.StringSolution;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import model.Model;
-import model.OffLineModel;
-import model.StringMaze;
-import model.StringSolution;
 
 public class MazeClientHandlerwithoutMVP implements ClientHandler{
 

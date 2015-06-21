@@ -10,12 +10,13 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Observable;
 import java.util.Observer;
+
+import TheBrain.OffLineModel;
+import TheBrain.PropertiesModel;
+import TheBrain.StringMaze;
+import TheBrain.StringSolution;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import model.OffLineModel;
-import model.StringMaze;
-import model.StringSolution;
-import presenter.PropertiesModel;
 
 /**
 * The Maze clientHandler implementing ClientHandler and observer(only for notifying a generated other maze name).

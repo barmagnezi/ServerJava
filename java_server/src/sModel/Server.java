@@ -55,8 +55,6 @@ public class Server extends Observable implements SModel{
 	public void start(){
 		System.out.println("Maze server START");
 		System.out.println("<---SERVER side--->");
-		//this.port=4900;
-		//System.out.println("Def Port is: "+this.port);
 		Clients = new ArrayList<MyClient>();
 		sendUpdate();
 		//
@@ -99,7 +97,7 @@ public class Server extends Observable implements SModel{
 									clientNum--;
 									sendUpdate();
 								} catch (IOException e) {
-									//sendMsg("Error handeling a client("+clientNum+")");
+									
 								}
 							}
 						});

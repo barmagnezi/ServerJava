@@ -1,4 +1,4 @@
-package model;
+package TheBrain;
 
 import java.util.Stack;
 

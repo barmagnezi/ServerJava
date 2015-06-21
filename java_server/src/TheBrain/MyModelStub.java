@@ -1,8 +1,7 @@
-package model;
+package TheBrain;
 
 import java.util.Observable;
 
-import presenter.PropertiesModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 

@@ -8,10 +8,9 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import presenter.PropertiesModel;
+import TheBrain.Model;
+import TheBrain.PropertiesModel;
 import View.Command;
-import view.View;
-import model.Model;
 
 /**
 * The Presenter class implements Observer.

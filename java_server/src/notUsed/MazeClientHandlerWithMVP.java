@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
-import model.OffLineModel;
-import model.StringMaze;
-import model.StringSolution;
+
 import sModel.ClientHandler;
+import TheBrain.OffLineModel;
+import TheBrain.StringMaze;
+import TheBrain.StringSolution;
 import View.Command;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import view.View;
 
 public class MazeClientHandlerWithMVP extends Observable implements ClientHandler,View {
 	PrintStream writer;

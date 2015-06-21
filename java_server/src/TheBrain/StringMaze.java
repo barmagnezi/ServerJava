@@ -1,4 +1,4 @@
-package model;
+package TheBrain;
 
 import algorithms.mazeGenerators.Cell;
 import algorithms.mazeGenerators.Maze;

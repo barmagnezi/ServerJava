@@ -1,4 +1,4 @@
-package model;
+package TheBrain;
 
 import hibernate.HibernateClass;
 
@@ -28,7 +28,6 @@ import algorithms.compression.HuffmanReader;
 import algorithms.compression.HuffmanWriter;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.*;
-import presenter.PropertiesModel;
 import algorithms.search.Solution;
 
 //For temp fix:

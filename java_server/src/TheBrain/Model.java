@@ -1,6 +1,5 @@
-package model;
+package TheBrain;
 
-import presenter.PropertiesModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 

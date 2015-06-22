@@ -40,7 +40,6 @@ public class AstarSearcher extends CommonSearcher {
 	*/
 	@Override
 	public Solution search(Searchable s) {
-		System.out.println("Dsvdsvvd");
 		ArrayList<State> closedset=new ArrayList<State>();
 		State current=null;
 		openList.add(s.getStartState());
